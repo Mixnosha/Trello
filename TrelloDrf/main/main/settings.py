@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'boardsApp',
+    'commentApp',
     'cardsApp',
     'columnApp',
-    'commentApp',
     'userApp',
+    'boardsApp',
     'workSpacesApp',
 ]
 

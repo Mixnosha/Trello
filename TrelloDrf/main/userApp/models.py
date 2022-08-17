@@ -6,7 +6,7 @@ class CustomUser(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=155)
     about = models.TextField(blank=True, null=True)
-    favorites_boards = models.ManyToManyField('', related_name='user')
+    favorites_boards = models.ManyToManyField(to='boardsApp.Boards', related_name='user')
 
     def __str__(self):
         return self.user.username
