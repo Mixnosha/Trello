@@ -5,4 +5,4 @@ class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password1 = serializers.CharField()
     password2 = serializers.CharField()
-    # first_name = serializers.CharField()
+    first_name = serializers.CharField()
