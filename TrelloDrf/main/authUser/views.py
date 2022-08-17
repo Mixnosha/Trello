@@ -7,5 +7,6 @@ import json
 class Register(views.APIView):
     def post(self, request):
         serializer = RegisterSerializer(request.data)
-        registerUser(serializer.data)
-        return Response(serializer.data)
+        status = registerUser(serializer.data)
+        return Response({'status': json.dumps(status)})
+

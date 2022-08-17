@@ -3,9 +3,7 @@ from django.db import models
 
 class CustomUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField()
     first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=155)
     about = models.TextField(blank=True, null=True)
     favorites_boards = models.ManyToManyField(to='boardsApp.Boards', related_name='user')
 
