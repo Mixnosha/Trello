@@ -6,3 +6,7 @@ class RegisterSerializer(serializers.Serializer):
     password1 = serializers.CharField()
     password2 = serializers.CharField()
     first_name = serializers.CharField()
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
