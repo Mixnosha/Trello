@@ -9,6 +9,5 @@ urlpatterns = [
     path('login', Login.as_view()),
     path('user_status', UserStatus.as_view()),
     path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken'))
-
+    path('auth/', include('djoser.urls.authtoken')),
 ]

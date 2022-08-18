@@ -5,11 +5,13 @@ from authUser.serializers import RegisterSerializer, LoginSerializer
 from authUser.service import registerUser, login
 import json
 
+
 class Register(views.APIView):
     def post(self, request):
         serializer = RegisterSerializer(request.data)
         status = registerUser(serializer.data)
         return Response({'status': json.dumps(status)})
+
 
 class Login(views.APIView):
     def post(self, request):
@@ -18,12 +20,12 @@ class Login(views.APIView):
         print(request.user.is_authenticated)
         return Response({'status': 'true'})
 
-class UserStatus (views.APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
 
-    def get(self, request   ):
+class UserStatus(views.APIView):
+
+    def get(self, request):
         content = {
-            'user': str(request.user),  # `django.contrib.auth.User` instance.
-            'auth': str(request.auth),  # None
+            'user': str(request.user),
+            'auth': str(request.auth),
         }
         return Response(content)
