@@ -11,4 +11,10 @@ class CreateWorkspaceSerializer(serializers.ModelSerializer):
 class ViewAllWorkspacesSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkSpaces
-        fields = ['title', 'logo']
+        fields = ['id', 'title', 'logo']
+
+class ViewWorkspacesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkSpaces
+        fields = ['logo', 'status', 'boards', 'title']
+#Дописать сериалайзер на Boards

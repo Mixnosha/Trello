@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from workSpacesApp.models import WorkSpaces
+
+admin.site.register(WorkSpaces)
