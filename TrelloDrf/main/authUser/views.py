@@ -21,3 +21,6 @@ class UserStatus(views.APIView):
             'auth': str(request.auth),
         }
         return Response(content)
+
+
+
