@@ -40,10 +40,5 @@ class WorkspaceModelView(viewsets.ModelViewSet):
         else:
             return ViewWorkspacesSerializer
 
-    def create(self, request, *args, **kwargs):
-        print(request.user)
-        print(request.data)
-        return Response({'status': 'true'})
 
 
-# , 'short_title', 'status', 'admin_users', 'type', 'slug']

@@ -8,5 +8,5 @@ class CustomUser(models.Model):
     favorites_boards = models.ManyToManyField(to='boardsApp.Boards', related_name='user', blank=True)
 
     def __str__(self):
-        return self.user.username
+        return f'id: {self.id} user: {self.user.username}'
 

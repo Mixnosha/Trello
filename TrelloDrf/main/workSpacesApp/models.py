@@ -14,7 +14,6 @@ class WorkSpaces(models.Model):
 
     ]
     title = models.CharField(max_length=100)
-    short_title = models.CharField(max_length=50, unique=True)
     status = models.ForeignKey(to='commentApp.Status', on_delete=models.CASCADE)
     boards = models.ManyToManyField(to='boardsApp.Boards', related_name='workspaces_boards', blank=True)
     users = models.ManyToManyField(to='userApp.CustomUser', related_name='workspaces_users', blank=True)
