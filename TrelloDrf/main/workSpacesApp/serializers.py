@@ -23,17 +23,19 @@ class ViewAllWorkspacesSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'logo']
 
 
-class ViewWorkspacesSerializer(serializers.ModelSerializer):
+class ViewOneWorkspacesSerializer(serializers.ModelSerializer):
     """Просмотр одного рабочего пространства"""
     boards = ViewBoardsSerializer(many=True)
     status = StatusViewSerializer()
+    type = serializers.CharField(source='get_type_display')
 
     class Meta:
         model = WorkSpaces
-        fields = ['logo', 'status', 'boards', 'title']
+        fields = ['logo', 'status', 'boards', 'title', 'users', 'type', 'web_site', 'description', 'join_link']
 
 
 class WorkSpaceCreateSerializer(serializers.ModelSerializer):
+    """Создание рабочего пространства"""
     class Meta:
         model = WorkSpaces
         fields = ['title', 'status', 'type', 'admin_users']
