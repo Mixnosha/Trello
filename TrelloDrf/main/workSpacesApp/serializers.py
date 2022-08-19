@@ -51,12 +51,18 @@ class WorkSpaceCreateSerializer(serializers.ModelSerializer):
     """Создание рабочего пространства"""
     class Meta:
         model = WorkSpaces
-        fields = ['title', 'status', 'type', 'admin_users']
+        fields = ['title', 'status', 'type']
 
     def create(self, validated_data):
-        adm_user = validated_data.get('admin_users')
-        validated_data.pop('admin_users')
+        adm_user = CustomUser.objects.get(user__username=self.context['request'].user)
         wk = WorkSpaces.objects.create(**validated_data, slug=get_slug(validated_data.get('title')))
-        wk.admin_users.add(adm_user[0].id)
+        wk.admin_users.add(adm_user.id)
         return wk
 
+class UpdateWorkspacesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkSpaces
+        fields = ('title', 'logo', 'description', 'web_site')
+
+        # Сделать чтобы slug менялся при изменении title
+        # Сделать чтобы поля который blank=False тоже можно было менять или не менять

@@ -1,11 +1,9 @@
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, permissions
-from rest_framework.response import Response
-from rest_framework import status
 from workSpacesApp.models import WorkSpaces
 from workSpacesApp.serializers import WorkSpaceCreateSerializer, ViewOneWorkspacesSerializer, \
-    ViewAllWorkspacesSerializer
+    ViewAllWorkspacesSerializer, UpdateWorkspacesSerializer
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(
@@ -33,4 +31,5 @@ class WorkspaceModelView(viewsets.ModelViewSet):
             return ViewOneWorkspacesSerializer
         if self.action == 'list':
             return ViewAllWorkspacesSerializer
-
+        if self.action == 'update':
+            return UpdateWorkspacesSerializer
