@@ -3,6 +3,7 @@ from rest_framework import serializers
 from boardsApp.serializers import ViewBoardsSerializer
 from commentApp.serializers import StatusViewSerializer
 from userApp.models import CustomUser
+from userApp.serializers import CustomUserViewAllSerializer
 from workSpacesApp.models import WorkSpaces
 from workSpacesApp.service import get_slug
 
@@ -28,10 +29,22 @@ class ViewOneWorkspacesSerializer(serializers.ModelSerializer):
     boards = ViewBoardsSerializer(many=True)
     status = StatusViewSerializer()
     type = serializers.CharField(source='get_type_display')
+    admin_users = CustomUserViewAllSerializer(many=True)
 
     class Meta:
         model = WorkSpaces
-        fields = ['logo', 'status', 'boards', 'title', 'users', 'type', 'web_site', 'description', 'join_link']
+        fields = [
+            'logo',
+            'status',
+            'boards',
+            'title',
+            'users',
+            'type',
+            'web_site',
+            'description',
+            'join_link',
+            'admin_users',
+        ]
 
 
 class WorkSpaceCreateSerializer(serializers.ModelSerializer):

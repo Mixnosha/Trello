@@ -1,8 +1,12 @@
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from rest_framework import status
 from workSpacesApp.models import WorkSpaces
-from workSpacesApp.serializers import WorkSpaceCreateSerializer, ViewOneWorkspacesSerializer
+from workSpacesApp.serializers import WorkSpaceCreateSerializer, ViewOneWorkspacesSerializer, \
+    ViewAllWorkspacesSerializer
+
 
 @method_decorator(name='list', decorator=swagger_auto_schema(
     operation_description="Получение всех рабочих пространств залогиненого пользователя"
@@ -12,6 +16,9 @@ from workSpacesApp.serializers import WorkSpaceCreateSerializer, ViewOneWorkspac
 ))
 @method_decorator(name='retrieve', decorator=swagger_auto_schema(
     operation_description="Получение одного рабочего пространства залогиненного пользователя"
+))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(
+    operation_description="Удаление рабочего пространства"
 ))
 class WorkspaceModelView(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
@@ -24,6 +31,6 @@ class WorkspaceModelView(viewsets.ModelViewSet):
             return WorkSpaceCreateSerializer
         if self.action == 'retrieve':
             return ViewOneWorkspacesSerializer
-
-
+        if self.action == 'list':
+            return ViewAllWorkspacesSerializer
 
