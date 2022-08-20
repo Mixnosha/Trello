@@ -1,5 +1,7 @@
 from django.db import models
 
+from workSpacesApp.service import get_slug
+
 
 class WorkSpaces(models.Model):
     TYPE = [
@@ -27,6 +29,11 @@ class WorkSpaces(models.Model):
 
     def __str__(self):
         return f'WorkSpace: {self.title}'
+
+    def save(self, *args, **kwargs):
+        if self.title:
+            self.slug = get_slug(self.title)
+        super(WorkSpaces, self).save(*args, **kwargs)
 
 
 
