@@ -9,16 +9,19 @@ def registerUser(data):
     try:
         first_name = data['first_name']
         data.pop('first_name')
-        print(data)
+        try:
+            User.objects.get(username=data['username'])
+            return 123
+        except Exception:
+            pass
         form = UserRegisterForm(data)
         form.save()
         user = User.objects.get(username=data['username'])
         CustomUser.objects.create(user=user, first_name=first_name)
         return True
     except IntegrityError:
-        return 'A user with the same name already exists'
+        return 101
     except Exception as e:
-        print(e)
-        return False
+        return e
 
 

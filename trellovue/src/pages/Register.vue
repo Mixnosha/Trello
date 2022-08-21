@@ -21,16 +21,21 @@
       </div>
       <div class="form-group">
         <input v-model="form.password1"
-               type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+               :type="place" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        <button @mousedown="place='text'" @mouseup="place='password'" class="form-control" type="button">г</button>
+      </div>
+      <div class="errors">
+        {{ password1Error }}
       </div>
       <div class="form-group">
         <input v-model="form.password2"
                type="password" class="form-control" id="exampleInputPassword2" placeholder="Repeat Password">
       </div>
+      <div class="errors">{{ errors }}</div>
       <button @click='sendPostRegister' type="submit" class="btn btn-primary">Submit</button>
+
     </form>
     </div>
-    <button type="button" @click='methodAxios'>get</button>
   </div>
 </template>
 
@@ -42,6 +47,10 @@ export default {
   data() {
     return {
       token: '',
+      errors: '',
+      password1Error: '',
+      formValid: false,
+      place: 'password',
       form: {
         username: '',
         email: '',
@@ -53,43 +62,48 @@ export default {
   },
   methods: {
       sendPostRegister(){
-      if (true){
+      if ((this.form.password1 === this.form.password2) && this.formValid){
         axios.post('http://127.0.0.1:8000/api/v1/register', {
-            username: 'Zefa',
-            email: 'xmix@fmai.com',
-            password1: 'Maksim21z',
-            password2: 'Maksim21z',
-            first_name: 'Kristina'
+            username: this.form.username,
+            email: this.form.email,
+            password1: this.form.password1,
+            password2: this.form.password2,
+            first_name: this.form.first_name
         }).then(res => {
-          console.log(res.data)
+          console.log(res.data.status)
+          if (Number(res.data.status) === 123){
+            this.errors = 'Имя пользователя уже занято'
+          }
         }).catch(error => {
           console.log(error)
         });
       }
-    },
-    async workspace(){
-      const res = await fetch('http://127.0.0.1:8000/api/v1/workspace/', {
-        method: 'GET',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Token 275dabc5297e597df589c901b1fdea32779b7d80'
-        },
-        credentials: 'include',
-      })
-      console.log(JSON.parse(res))
-    },
-    methodAxios(){
-      axios
-          .get('http://127.0.0.1:8000/api/v1/workspace', {
-            headers: {
-              'Authorization': 'Token 275dabc5297e597df589c901b1fdea32779b7d80',
-            }
-          })
-          .then(response => {console.log(response.data)})
-          .catch(error => {console.log(error)});
+      else {
+          this.errors = 'Пароли не совпадают'
+          this.form.password2 = ''
+          this.form.password1 = ''
+      }
     },
   },
+  watch: {
+    'form.password1'(){
+      if (this.form.password1.length < 6){
+        this.password1Error = 'Пароль слишком короткий'
+      }
+      else {
+        this.password1Error = ''
+      }
+      if (this.form.password1.length > 5) {
+        if (parseInt(this.form.password1.search(/\d/)) === -1) {
+          this.password1Error = 'Пароль должен содержать цифры'
+        } else {
+          this.password1Error = ''
+          this.formValid = true
+        }
+      }
+    }
+
+  }
 
 }
 
@@ -106,5 +120,8 @@ export default {
 }
 .form-control{
   margin-bottom: 5px;
+}
+.errors{
+  color: #ff050c;
 }
 </style>
