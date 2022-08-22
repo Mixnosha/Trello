@@ -21,7 +21,6 @@ def registerUser(data):
         return True
     except IntegrityError:
         return 101
-    except Exception as e:
-        return e
+    
 
 

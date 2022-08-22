@@ -1,15 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/router'
+import components from '@/components/UI';
 
-const cors=require("cors");
-const corsOptions ={
-    origin:'*',
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200,
-}
+const app = createApp(App)
 
-createApp(App)
+components.forEach(component => {
+    app.component(component.name, component)
+})
+
+app
     .use(router)
-    // .use(cors(corsOptions))
     .mount('#app')
