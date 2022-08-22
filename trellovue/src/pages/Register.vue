@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>{{ username }}</h1>
     <div class="register_form">
     <form @submit.prevent>
       <h2>Register Form</h2>
@@ -59,16 +60,11 @@
 
 <script>
 import axios from 'axios';
-import MyInput from "@/components/UI/MyInput";
-import MyButton from "@/components/UI/MyButton";
+import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
+
 export default {
-  components: {
-    MyButton,
-    MyInput
-  },
   data() {
     return {
-      token: '',
       errors: '',
       password1Error: '',
       formValid: false,
@@ -124,11 +120,16 @@ export default {
           this.formValid = true
         }
       }
-    }
+    },
+  },
+  computed: {
+    ...mapState({
+      username: state => state.post.username,
 
-  }
-
+    }),
+  },
 }
+
 
 </script>
 
