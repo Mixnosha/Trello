@@ -105,7 +105,6 @@ export default {
             password2: this.form.password2,
             first_name: this.form.first_name
         }).then(res => {
-          console.log(res.data.status)
           if (String(res.data.status) === 'true'){
               this.setUsername(this.form.username)
               this.setPassword(this.form.password1)

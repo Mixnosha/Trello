@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import Cookies from "js-cookie";
 export const userModule = {
     state: () => ({
         username: '',
@@ -21,13 +21,14 @@ export const userModule = {
     },
     actions: {
         Login({state, commit}) {
-            document.cookie = `username=${state.username}`
+            Cookies.set('username', state.username, { expires: 90 })
             axios.post('http://192.168.100.6:8000/api/v1/auth/token/login', {
                 password: state.password,
                 username: state.username
             }).then(res => {
                 commit('setToken', res.data.auth_token)
-                document.cookie = `token=${state.token}`
+                Cookies.set('token', state.token, { expires: 90 })
+
             })
         }
     },
