@@ -6,6 +6,6 @@ export default createStore({
         isAuth: false,
     },
     modules: {
-        post: userModule
+        user: userModule
     }
 })

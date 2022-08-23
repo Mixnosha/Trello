@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>{{ username }}</h1>
+    <h1>{{ pass }}</h1>
+    <h1> {{ token }}</h1>
     <div class="register_form">
     <form @submit.prevent>
       <h2>Register Form</h2>
@@ -51,7 +53,6 @@
       </div>
 
       <div class="errors">{{ errors }}</div>
-
       <my-button @click="sendPostRegister" type="submit">Register</my-button>
     </form>
     </div>
@@ -79,8 +80,15 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setUsername: 'user/setUsername',
+      setPassword: 'user/setPassword',
+      setToken: 'user/setToken',
+    }),
+    ...mapActions({
+      Login: 'user/Login',
+    }),
       sendPostRegister(){
-      console.log('sdfsdfsdfsd')
       if ((this.form.password1 === this.form.password2) && this.formValid){
         axios.post('http://192.168.100.6:8000/api/v1/register', {
             username: this.form.username,
@@ -90,7 +98,12 @@ export default {
             first_name: this.form.first_name
         }).then(res => {
           console.log(res.data.status)
-          if (Number(res.data.status) === 123){
+          if (String(res.data.status) === 'true'){
+              this.setUsername(this.form.username)
+              this.setPassword(this.form.password1)
+              this.Login()
+          }
+          else if (Number(res.data.status) === 123){
             this.errors = 'Имя пользователя уже занято'
           }
         }).catch(error => {
@@ -103,6 +116,7 @@ export default {
           this.form.password1 = ''
       }
     },
+
   },
   watch: {
     'form.password1'(){
@@ -124,8 +138,9 @@ export default {
   },
   computed: {
     ...mapState({
-      username: state => state.post.username,
-
+      username: state => state.user.username,
+      pass: state => state.user.password,
+      token: state => state.user.token,
     }),
   },
 }
