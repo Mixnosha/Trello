@@ -9,25 +9,33 @@
 
       <div class="form-group">
         <div class="form-group">
-          <my-input v-model="form.username"
-                 type="text" class="form-control" id="exampleUsername" placeholder="Username"/>
+          <my-input v-focus v-model="form.username"
+                    @keyup.enter="nextFocus"
+                 type="text" class="form-control" id="1" placeholder="Username"/>
         </div>
 
         <div class="form-group">
           <my-input v-model="form.first_name"
-                 type="text" class="form-control" id="examleFirst_name" placeholder="First_name"/>
+                 type="text"
+                    @keyup.enter="nextFocus"
+                    class="form-control"
+                    id="2"
+                    placeholder="First_name"/>
         </div>
 
         <my-input v-model="form.email"
             type="email"
+                  id="3"
+                  @keyup.enter="nextFocus"
                class="form-control"
-               id="exampleInputEmail1"
                aria-describedby="emailHelp"
                placeholder="Enter email"/>
       </div>
 
       <div class="form-group">
         <my-input
+            id="4"
+            @keyup.enter="nextFocus"
             v-model="form.password1"
             placeholder="Password"
             :type="place"
@@ -46,8 +54,9 @@
 
       <div class="form-group">
         <my-input v-model="form.password2"
+                  id="5"
+                  @keyup.enter="nextFocus"
                type="password"
-               id="exampleInputPassword2"
                placeholder="Repeat Password"
         />
       </div>
@@ -83,7 +92,6 @@ export default {
     ...mapMutations({
       setUsername: 'user/setUsername',
       setPassword: 'user/setPassword',
-      setToken: 'user/setToken',
     }),
     ...mapActions({
       Login: 'user/Login',
@@ -116,17 +124,27 @@ export default {
           this.form.password1 = ''
       }
     },
+    nextFocus(el){
+      if (el.target.id === '5'){
+        this.sendPostRegister()
+      }
+      else{
+        document.getElementById(Number(el.target.id) + 1).focus()
+      }
+
+
+    }
 
   },
   watch: {
     'form.password1'(){
-      if (this.form.password1.length < 6){
+      if (this.form.password1.length < 8){
         this.password1Error = 'Пароль слишком короткий'
       }
       else {
         this.password1Error = ''
       }
-      if (this.form.password1.length > 5) {
+      if (this.form.password1.length > 7) {
         if (parseInt(this.form.password1.search(/\d/)) === -1) {
           this.password1Error = 'Пароль должен содержать цифры'
         } else {
