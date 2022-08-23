@@ -1,8 +1,18 @@
 <template>
+  <navbar :value="username"></navbar>
 <div>
   <router-view></router-view>
 </div>
 </template>
+
+<script>
+import Navbar from "@/components/UI/Navbar";
+import {mapState} from "vuex";
+export default {
+  components: {Navbar},
+
+}
+</script>
 
 <style>
 #app {

@@ -155,3 +155,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     'http://192.168.100.6:8080',
 ]
+
+
+STATIC_URL = '/static/'
+MEDIA_URL = '/images/'
+
+MEDIA_ROOT = BASE_DIR / 'static/images'
+STATIC_ROOT = BASE_DIR / 'staticfiles'

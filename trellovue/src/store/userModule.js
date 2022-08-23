@@ -5,6 +5,7 @@ export const userModule = {
         username: '',
         password: '',
         token: '',
+        email: '',
 
     }),
     getters: {},
@@ -18,6 +19,9 @@ export const userModule = {
         setToken(state, token) {
             state.token = token
         },
+        setEmail(state, email){
+            state.email = email
+        }
     },
     actions: {
         Login({state, commit}) {

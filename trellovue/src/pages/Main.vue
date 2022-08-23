@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <h1>Main Page</h1>
+  <div style="text-align: left">
     <div v-if="!username">
       <my-button @click="$router.push('/register')">Register</my-button>
       <my-button @click="$router.push('/login')">Login</my-button>
@@ -11,7 +10,7 @@
     </div>
 
     <div>Рабчие пространства <span @click="addWorkspace">+</span></div>
-    <div v-for="wk in workspaces">
+    <div v-for="wk in workspaces" style="display: flex">
       <img :src="wk.logo" alt="" width="30" height="30"><strong><div :id="wk.id">{{wk.title}}</div></strong>
     </div>
   </div>
@@ -27,13 +26,14 @@ export default {
   components: {MyButton},
   data() {
     return {
-      workspaces: ''
+      workspaces: '',
     }
   },
   methods: {
     ...mapMutations({
       setUsername: 'user/setUsername',
       setToken: 'user/setToken',
+      setEmail: 'user/setEmail'
     }),
     addWorkspace(){
       console.log('sdfsdf')
@@ -41,6 +41,7 @@ export default {
     loadData() {
       this.setUsername(Cookies.get('username'))
       this.setToken(Cookies.get('token'))
+      this.setEmail(Cookies.get('email'))
       axios.get('http://192.168.100.6:8000/api/v1/workspace/', {
         headers: {
           'Authorization': `Token ${this.token}`
@@ -73,11 +74,11 @@ export default {
           username: state => state.user.username,
           token: state => state.user.token,
         }),
-  }
-  ,
+  },
   mounted() {
     this.loadData()
-  }
+  },
+
 
 
 }

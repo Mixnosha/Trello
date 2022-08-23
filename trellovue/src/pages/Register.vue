@@ -71,6 +71,7 @@
 <script>
 import axios from 'axios';
 import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
+import Cookies from "js-cookie";
 
 export default {
   data() {
@@ -92,6 +93,7 @@ export default {
     ...mapMutations({
       setUsername: 'user/setUsername',
       setPassword: 'user/setPassword',
+      setEmail: 'user/setEmail',
     }),
     ...mapActions({
       Login: 'user/Login',
@@ -108,6 +110,8 @@ export default {
           if (String(res.data.status) === 'true'){
               this.setUsername(this.form.username)
               this.setPassword(this.form.password1)
+              this.setEmail(this.form.email)
+              Cookies.set('email', this.form.email, { expires: 90 })
               this.Login()
               this.$router.push({name: 'main'})
 
