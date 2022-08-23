@@ -110,6 +110,8 @@ export default {
               this.setUsername(this.form.username)
               this.setPassword(this.form.password1)
               this.Login()
+              this.$router.push({name: 'main'})
+
           }
           else if (Number(res.data.status) === 123){
             this.errors = 'Имя пользователя уже занято'
@@ -123,6 +125,7 @@ export default {
           this.form.password2 = ''
           this.form.password1 = ''
       }
+
     },
     nextFocus(el){
       if (el.target.id === '5'){
