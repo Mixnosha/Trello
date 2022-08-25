@@ -78,7 +78,7 @@ export default {
           Cookies.remove('username')
           Cookies.remove('token')
           Cookies.remove('email')
-          location.reload();
+          this.$router.push({name: 'register'})
         }
       })
     },

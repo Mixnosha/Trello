@@ -1,8 +1,8 @@
 <template>
+  <navbar></navbar>
   <div style="text-align: left">
     <div v-if="!username">
       <my-button @click="$router.push('/register')">Register</my-button>
-      <my-button @click="$router.push('/login')">Login</my-button>
     </div>
     <div v-else>
     </div>
@@ -15,9 +15,10 @@
 <script>
 import MyButton from "@/components/UI/MyButton";
 import {mapState} from "vuex";
+import Navbar from "@/components/UI/Navbar";
 
 export default {
-  components: {MyButton},
+  components: {MyButton, Navbar},
   data() {
     return {
       workspaces: '',

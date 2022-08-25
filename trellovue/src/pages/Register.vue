@@ -122,7 +122,11 @@ export default {
         }
       }
       else if (this.form_status==='log'){
-        this.Login()
+          this.Login().then(token => {
+            Cookies.set('token', token, {expires: 90})
+            Cookies.set('username', this.form.username, {expires: 90})
+          }
+        )
       }
     },
     nextFocusReg(el) {
