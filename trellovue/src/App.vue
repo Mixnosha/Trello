@@ -1,38 +1,40 @@
 <template>
-  <navbar :value="username"></navbar>
-<div>
-  <router-view></router-view>
-</div>
+  <navbar></navbar>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
 import Navbar from "@/components/UI/Navbar";
-import {mapState} from "vuex";
+import {mapMutations, mapState} from "vuex";
+import Cookies from "js-cookie";
+import axios from "axios";
+
 export default {
   components: {Navbar},
+  methods: {
+    ...mapMutations({
+      setUsername: 'user/setUsername',
+      setToken: 'user/setToken',
+      setEmail: 'user/setEmail'
+    }),
+    loadData() {
+      this.setToken(Cookies.get('token'))
+      this.setUsername(Cookies.get('username'))
 
+    },
+  },
+  computed: {
+    ...mapState({
+      token: state => state.user.token,
+    })
+  },
+  mounted() {
+    this.loadData()
+  }
 }
 </script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

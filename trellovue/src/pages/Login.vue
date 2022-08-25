@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import {mapActions, mapMutations} from "vuex";
 
 export default {
@@ -54,19 +53,14 @@ export default {
     ...mapActions({
       Login: 'user/Login',
     }),
-    nextFocus(el) {
-      if (el.target.id === '2') {
-        this.sendLogin()
-      } else {
-        document.getElementById(Number(el.target.id) + 1).focus()
-      }
-    },
-    sendLogin(){
-      this.setUsername(this.form.username)
-      this.setPassword(this.form.password)
-      this.Login()
-      this.$router.push({name: 'main'})
-    }
+    // nextFocusLog(el) {
+    //   if (el.target.id === '2') {
+    //     this.sendLogin()
+    //   } else {
+    //     document.getElementById(Number(el.target.id) + 1).focus()
+    //   }
+    // },
+
   }
 }
 </script>

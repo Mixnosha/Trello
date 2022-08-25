@@ -1,108 +1,109 @@
 <template>
-  <div class="navbar">
+ <header>
 
-    <div class="navbar__btns">
-      <div style="display: flex; align-items: center">
-        <strong><div style="width: auto; height: 20px" @click="$router.push('/')">Trello</div></strong>
-      <div style="width: auto; height: 20px"><a class="btn" @click="$router.push('/posts')">Рабочие пространства<img style="width: 13px; margin-left: 5px" src="@/static/images/arrow.svg"></a></div>
-      <div style="width: auto; height: 20px"><a class="btn" @click="$router.push('/store')">Недавние</a></div>
-        <div style="width: auto; height: 20px"><a class="btn" @click="$router.push('/about')">В избранном</a></div>
-        <div style="width: auto; height: 20px"><a class="btn" @click="$router.push('/post_api')">Создать</a></div>
-        <div style="width: auto; height: 20px"><input type="text" placeholder="Поиск" class="myInput"></div>
-        <div style="width: auto; height: 20px"><button @click="profileMenu===false?profileMenu=true:profileMenu=false" class="profile">{{ username[0] }}</button></div>
-      </div>
-
-      <div class="profile_menu" id="profileMenu">
-        <div style="color: rgba(152,152,152,0.99)">Учетная запись</div>
-        <hr  style="width: 230px; margin: 0 auto">
-        <div class="profile_icon">
-          <div class="icon" style="margin-left: 10px">{{username[0]}}</div>
-          <div style="display: flex; flex-direction: column; margin-left: 10px">
-            <div style="display: flex;">{{username}}</div>
-            <div style="color: rgba(152,152,152,0.99); font-size: 12px">{{email}}</div>
-          </div>
+     <div class="header__logo">Trello</div>
+     <nav class="header__nav">
+       <div class="nav__btn">Рабочие пространства<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
+       <div class="nav__btn">Недавние<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
+       <div class="nav__btn">В избранном<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
+       <div class="nav__btn">Создать<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
+     </nav>
+     <div class="header__profile">
+       <input type="text" class="profile-input" placeholder="Поиск">
+       <div class="profile-icon" @click="profileMenu===false?profileMenu=true:profileMenu=false">{{username[0]}}</div>
+     </div>
+ </header>
+    <div class="profile_menu" id="profileMenu">
+      <div style="color: rgba(152,152,152,0.99);">Учетная запись</div>
+      <hr style="width: 230px; margin: 0 auto">
+      <div class="profile_icon">
+        <div class="icon" style="margin-left: 10px">{{ username[0] }}</div>
+        <div style="display: flex; flex-direction: column; margin-left: 10px">
+          <div style="display: flex;">{{ username }}</div>
+          <div style="color: rgba(152,152,152,0.99); font-size: 12px">{{ email }}</div>
         </div>
-        <hr  style="width: 230px; margin: 0 auto">
-        <div class="profile_text">Профиль и доступ</div>
-        <div class="profile_text">Действия</div>
-        <div class="profile_text">Карточки</div>
-        <div class="profile_text">Настройки</div>
       </div>
+      <hr style="width: 230px; margin: 0 auto">
+      <div class="profile_text">Профиль и доступ</div>
+      <div class="profile_text">Действия</div>
+      <div class="profile_text">Карточки</div>
+      <div class="profile_text">Настройки</div>
+      <hr style="width: 230px; margin: 0 auto">
+      <div @click="Logout" class="profile_text">Выйти</div>
     </div>
-  </div>
 </template>
-<!---->
 <script>
-import {mapState} from "vuex";
+import {mapMutations, mapState} from "vuex";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export default {
-  data(){
-    return{
+  data() {
+    return {
       profileMenu: false
     }
   },
   watch: {
-    profileMenu(){
-      this.profileMenu?
-          document.getElementById('profileMenu').style.display = "flex":
+    profileMenu() {
+      this.profileMenu ?
+          document.getElementById('profileMenu').style.display = "flex" :
           document.getElementById('profileMenu').style.display = "none"
     }
+  },
+  methods: {
+    ...mapMutations({
+      setToken: 'user/setToken',
+      setEmail: 'user/setEmail',
+      setUsername: 'user/setUsername',
+    }),
+    async loadEmail(){
+        this.setToken(Cookies.get('token'))
+        this.setUsername(Cookies.get('username'))
+        const res = await  axios.get('http:///192.168.100.6:8000/api/v1/auth/users', {
+        headers: {
+          'Authorization': `Token ${this.token}`
+        }
+      })
+      const email = res.data[0].email
+      this.setEmail(email)
+      Cookies.set('email', email)
+    },
+    Logout() {
+      axios.post("http://192.168.100.6:8000/api/v1/auth/token/logout", {}, {
+        headers: {
+          'Authorization': `Token ${this.token}`
+        }
+      }).then(res => {
+        if (res.status === 204){
+          Cookies.remove('username')
+          Cookies.remove('token')
+          Cookies.remove('email')
+          location.reload();
+        }
+      })
+    },
   },
   computed: {
     ...mapState({
       username: state => state.user.username,
+      token: state => state.user.token,
       email: state => state.user.email,
     }),
   },
+  mounted() {
+    this.loadEmail()
+  }
 }
 </script>
 
 <style scoped>
-.navbar{
-  height: 50px;
-  background-color: #2e60b9;
-  display: flex;
-  align-items: center;
-  color: white;
-}
-.btn {
-  color: white;
-}
-
-.btn:hover{
-  color: #b1c6ee;
-}
-.myInput{
-  border-radius: 8px;
-  color: white;
-  background-color: #b1c6ee;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  padding-left: 10px;
-  border: 0;
-  border: none;
-  margin-left: 500px;
-}
-::placeholder{
-  color: white;
-}
-.profile{
-  margin-left: 40px;
-  border-radius: 50%;
-  border: 0;
-  width: 30px;
-  height: 30px;
-  color: white;
-  background-color: #2f73ec;
-}
-
-.profile_menu{
+.profile_menu {
   display: none;
   gap: 5px;
   flex-direction: column;
   width: 250px;
   color: black;
-  height: 450px;
+  height: 300px;
   background-color: white;
   border-radius: 3px;
   position: absolute;
@@ -111,7 +112,7 @@ export default {
   box-shadow: -5px 6px 10px rgba(155, 153, 153, 0.99);
 }
 
-.profile_text{
+.profile_text {
   box-sizing: border-box;
   width: 100%;
   height: 2rem;
@@ -122,15 +123,17 @@ export default {
 
 }
 
-.profile_text:hover{
+.profile_text:hover {
   background-color: #ff050c;
 }
 
-.profile_icon{
+.profile_icon {
   display: flex;
 }
-
-.icon{
+::placeholder{
+  color: white;
+}
+.icon {
   border-radius: 50%;
   align-items: center;
   font-size: 28px;
@@ -141,6 +144,66 @@ export default {
   display: flex;
   justify-content: center;
 }
+</style>
 
+<style scoped>
+header{
+  width: 100%;
+  height: 3rem;
+  background: #2f73ec;
+  color:white;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
 
+.header__nav{
+  display: flex;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.nav__btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 100%;
+  padding: 5px 10px;
+}
+
+.nav__btn-svg{
+  margin-left: 5px;
+  width: 12px;
+}
+
+.header__profile{
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.profile-icon{
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0c50c9;
+  cursor: pointer;
+}
+.profile-input{
+  width: 230px;
+  outline: none;
+  background: #0c50c9 url("@/static/images/search-icon.svg") no-repeat;
+  background-size: 19px;
+  background-position: 3% 45%;
+  padding-left: 2rem;
+  box-sizing: border-box;
+  border: 1px solid white;
+  border-radius: 10px;
+  color: white;
+}
 </style>
