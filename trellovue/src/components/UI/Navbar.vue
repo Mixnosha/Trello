@@ -6,7 +6,7 @@
        <div class="nav__btn">Рабочие пространства<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
        <div class="nav__btn">Недавние<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
        <div class="nav__btn">В избранном<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
-       <div class="nav__btn">Создать<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
+       <div class="nav__btn_create" style="">Создать</div>
      </nav>
      <div class="header__profile">
        <input type="text" class="profile-input" placeholder="Поиск">
@@ -97,6 +97,9 @@ export default {
 </script>
 
 <style scoped>
+.header__logo{
+  font-weight: 700;
+}
 .profile_menu {
   display: none;
   gap: 5px;
@@ -120,11 +123,12 @@ export default {
   display: flex;
   align-items: center;
   padding-left: 1rem;
+  cursor: pointer;
 
 }
 
 .profile_text:hover {
-  background-color: #ff050c;
+  background-color: rgba(160, 163, 168, 0.09);
 }
 
 .profile_icon {
@@ -149,8 +153,8 @@ export default {
 <style scoped>
 header{
   width: 100%;
-  height: 3rem;
-  background: #2f73ec;
+  height: 44px;
+  background: #026AA7;
   color:white;
   display: flex;
   align-items: center;
@@ -162,6 +166,17 @@ header{
   gap: 1rem;
   margin-left: 1rem;
 }
+.nav__btn_create{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 100%;
+  padding: 5px 10px;
+  background: rgba(23, 43, 77, 0.45);
+  transition: background-color 32ms;
+  border-radius: 4px;
+}
 
 .nav__btn{
   display: flex;
@@ -170,6 +185,15 @@ header{
   width: auto;
   height: 100%;
   padding: 5px 10px;
+  transition: background-color 32ms;
+  border-radius: 4px;
+}
+
+.nav__btn:hover{
+  background: rgba(150, 180, 231, 0.32);
+}
+.nav__btn_create:hover{
+  background: rgba(150, 180, 231, 0.32);
 }
 
 .nav__btn-svg{
@@ -196,14 +220,15 @@ header{
 }
 .profile-input{
   width: 230px;
+  height: 34px;
   outline: none;
-  background: #0c50c9 url("@/static/images/search-icon.svg") no-repeat;
+  background: rgba(255, 255, 255, 0.2) url("@/static/images/search-icon.svg") no-repeat;
   background-size: 19px;
   background-position: 3% 45%;
   padding-left: 2rem;
   box-sizing: border-box;
-  border: 1px solid white;
-  border-radius: 10px;
+  border: 1px solid #4475d9;
+  border-radius: 6px;
   color: white;
 }
 </style>
