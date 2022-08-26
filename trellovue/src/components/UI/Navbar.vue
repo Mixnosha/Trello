@@ -1,6 +1,5 @@
 <template>
  <header>
-
      <div class="header__logo">Trello</div>
      <nav class="header__nav">
        <div class="nav__btn">Рабочие пространства<img src = "@/static/images/arrow.svg" class = "nav__btn-svg"></div>
@@ -10,11 +9,11 @@
      </nav>
      <div class="header__profile">
        <input type="text" class="profile-input" placeholder="Поиск">
-       <div class="profile-icon" @click="profileMenu===false?profileMenu=true:profileMenu=false">{{username[0]}}</div>
+       <div class="profile-icon" @click="profileVisible">{{username[0]}}</div>
      </div>
  </header>
     <div class="profile_menu" id="profileMenu">
-      <div style="color: rgba(152,152,152,0.99);">Учетная запись</div>
+        <div style="color: rgba(152,152,152,0.99); padding-left: 25%" >Учетная запись</div>
       <hr style="width: 230px; margin: 0 auto">
       <div class="profile_icon">
         <div class="icon" style="margin-left: 10px">{{ username[0] }}</div>
@@ -40,7 +39,6 @@ import Cookies from "js-cookie";
 export default {
   data() {
     return {
-      profileMenu: false
     }
   },
   watch: {
@@ -55,7 +53,16 @@ export default {
       setToken: 'user/setToken',
       setEmail: 'user/setEmail',
       setUsername: 'user/setUsername',
+      setProfileMenu: 'navbar/setProfileMenu',
     }),
+    profileVisible(){
+      if(this.profileMenu === false){
+        this.setProfileMenu(true)
+      }
+      else {
+        this.setProfileMenu(false)
+      }
+    },
     async loadEmail(){
         this.setToken(Cookies.get('token'))
         this.setUsername(Cookies.get('username'))
@@ -88,6 +95,7 @@ export default {
       username: state => state.user.username,
       token: state => state.user.token,
       email: state => state.user.email,
+      profileMenu: state => state.navbar.profileMenu,
     }),
   },
   mounted() {
