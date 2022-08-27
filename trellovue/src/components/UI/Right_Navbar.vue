@@ -90,11 +90,11 @@ export default {
       let menu = document.getElementById(id)
       if (menu.style.display === 'none'){
         menu.style.display = 'block'
-        document.getElementById(men_id).style.background=`#e4f0f6 url(${up_arrow}) no-repeat 95% 50%`
+        document.getElementById(men_id).style.background=`rgba(150, 180, 231, 0.32) url(${up_arrow}) no-repeat 95% 50%`
         document.getElementById(men_id).style.backgroundSize="12px"
       }else{
         menu.style.display = 'none'
-        document.getElementById(men_id).style.background=`#e4f0f6 url(${right_arrow}) no-repeat 95% 50%`
+        document.getElementById(men_id).style.background=''
         document.getElementById(men_id).style.backgroundSize="12px"
       }
     },
