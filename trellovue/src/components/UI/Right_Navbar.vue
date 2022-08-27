@@ -146,11 +146,16 @@ export default {
   padding: 10px;
   margin-bottom: 8px;
   border-radius: 4px;
-  background: #e4f0f6 url("@/static/images/arrow_right.svg") no-repeat 95% 50% ;
+  background: white url("@/static/images/arrow_right.svg") no-repeat 95% 50% ;
   background-size: 12px;
   color: #0079bf;
   font-weight: 700;
   cursor: pointer;
+}
+
+.workspace:hover{
+  background: rgba(150, 180, 231, 0.32) url("@/static/images/arrow_right.svg") no-repeat 95% 50% ;
+  background-size: 12px;
 }
 
 .add {
