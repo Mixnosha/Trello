@@ -64,24 +64,25 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import up_arrow from '@/static/images/up-arrow.svg'
 import right_arrow from '@/static/images/arrow_right.svg'
+import {mapMutations, mapState} from "vuex";
 
 export default {
   data() {
     return {
       menu_visible: false,
-      workspaces: [],
     }
   },
   methods: {
+    ...mapMutations({
+      setWorkspaces: 'navbar/setWorkspaces',
+    }),
     loadWK() {
       axios.get('http://192.168.100.6:8000/api/v1/workspace/', {
         headers: {
           'Authorization': `Token ${Cookies.get('token')}`
         }
       }).then(res => {
-        for (let i = 0; i < res.data.length; i++) {
-          this.workspaces.push(res.data[i])
-        }
+          this.setWorkspaces(res.data)
       })
     },
     menuVisible(el) {
@@ -103,6 +104,11 @@ export default {
   },
   mounted() {
     this.loadWK()
+  },
+  computed: {
+    ...mapState({
+      workspaces: state => state.navbar.workspaces,
+    }),
   }
 }
 </script>

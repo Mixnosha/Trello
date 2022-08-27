@@ -31,14 +31,12 @@
         пространства
       </div>
 
-      <div style="padding-left: 12px; padding-right: 12px" >
-        <div class="some-wk" style="display:flex; align-items: center; padding-left: 8px">
-          <img src="@/static/images/wks.svg" width="38px" style="border-radius: 4px">
-          <div style="padding-left: 6px">Tako</div>
+      <div style="padding-left: 12px; padding-right: 12px">
+        <div v-for="wk in workspaces" class="some-wk" style="display:flex; align-items: center; padding-left: 8px">
+          <img src="@/static/images/wks.svg" width="38" style="border-radius: 4px">
+          <div style="padding-left: 6px">{{ wk.title }}</div>
         </div>
       </div>
-
-
     </div>
   </div>
   <div class="profile_menu" id="profileMenu">
@@ -75,6 +73,8 @@ export default {
           document.getElementById('profileMenu').style.display = "flex" :
           document.getElementById('profileMenu').style.display = "none"
     }
+
+    /// написать открытие через реактивные классы
   },
   methods: {
     ...mapMutations({
@@ -82,6 +82,7 @@ export default {
       setEmail: 'user/setEmail',
       setUsername: 'user/setUsername',
       setProfileMenu: 'navbar/setProfileMenu',
+      setWk__visible: 'navbar/setWk__visible',
     }),
     profileVisible() {
       if (this.profileMenu === false) {
@@ -123,6 +124,8 @@ export default {
       token: state => state.user.token,
       email: state => state.user.email,
       profileMenu: state => state.navbar.profileMenu,
+      workspaces: state => state.navbar.workspaces,
+      wk__visible: state => state.navbar.wk__visible,
     }),
   },
   mounted() {
