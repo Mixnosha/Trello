@@ -1,4 +1,5 @@
 <template>
+  <div style="position: fixed; width: 100%">
   <header>
     <div class="header__logo">Trello</div>
     <nav class="header__nav">
@@ -56,6 +57,7 @@
     <div class="profile_text">Настройки</div>
     <hr style="width: 230px; margin: 0 auto">
     <div @click="Logout" class="profile_text">Выйти</div>
+  </div>
   </div>
 </template>
 <script>

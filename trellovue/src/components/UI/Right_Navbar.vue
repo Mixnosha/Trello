@@ -178,7 +178,7 @@ export default {
       }).then(res => {
         console.log(res.status)
         if (res.status === 201){
-          this.$router.push({ name: 'pageWk', params: { slug: 'tako123' }})
+          this.$router.push({ name: 'pageWk', params: { slug: res.data.slug }})
         }
         else {
           console.log('произошла внутрення ошибка сервера')}
