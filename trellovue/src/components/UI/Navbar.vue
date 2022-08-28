@@ -2,7 +2,7 @@
   <header>
     <div class="header__logo">Trello</div>
     <nav class="header__nav">
-      <div class="nav__btn">Рабочие пространства<img src="@/static/images/arrow.svg" class="nav__btn-svg"></div>
+    <div @click="wk__visible===false?setWk__visible(true):setWk__visible(false)" class="nav__btn">Рабочие пространства<img src="@/static/images/arrow.svg" class="nav__btn-svg"></div>
       <div class="nav__btn">Недавние<img src="@/static/images/arrow.svg" class="nav__btn-svg"></div>
       <div class="nav__btn">В избранном<img src="@/static/images/arrow.svg" class="nav__btn-svg"></div>
       <div class="nav__btn_create" style="">Создать</div>
@@ -12,7 +12,7 @@
       <div class="profile-icon" @click="profileVisible">{{ username[0] }}</div>
     </div>
   </header>
-  <div class="wk__open">
+  <div class="wk__open" :style="wkOpenFunck()">
     <div class="wk__label" style="padding: 8px; font-size: 14px">Рабочие пространства</div>
     <hr style="width: 300px; margin: 0 auto">
     <div class="current_wk">
@@ -65,7 +65,9 @@ import Cookies from "js-cookie";
 
 export default {
   data() {
-    return {}
+    return {
+
+    }
   },
   watch: {
     profileMenu() {
@@ -84,6 +86,14 @@ export default {
       setProfileMenu: 'navbar/setProfileMenu',
       setWk__visible: 'navbar/setWk__visible',
     }),
+    wkOpenFunck() {
+      if (this.wk__visible === false){
+        return {display: 'none'}
+      }
+      else{
+        return {display: 'block'}
+      }
+    },
     profileVisible() {
       if (this.profileMenu === false) {
         this.setProfileMenu(true)
@@ -229,6 +239,7 @@ header {
   padding: 5px 10px;
   transition: background-color 32ms;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .nav__btn:hover {
