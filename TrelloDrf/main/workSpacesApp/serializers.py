@@ -49,9 +49,12 @@ class ViewOneWorkspacesSerializer(serializers.ModelSerializer):
 
 class WorkSpaceCreateSerializer(serializers.ModelSerializer):
     """Создание рабочего пространства"""
+    description = serializers.CharField(required=False)
+    slug = serializers.CharField(required=False)
+
     class Meta:
         model = WorkSpaces
-        fields = ['title', 'status', 'type']
+        fields = ['title', 'status', 'type', 'description', 'slug']
 
     def create(self, validated_data):
         adm_user = CustomUser.objects.get(user__username=self.context['request'].user)

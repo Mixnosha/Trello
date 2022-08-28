@@ -1,3 +1,6 @@
+import random
+
+
 def get_slug(title):
     title = title.split()
     slug = ''
@@ -7,7 +10,7 @@ def get_slug(title):
             slug += word.lower()
             break
         slug += word + '_'
-    return slug
+    return slug + str(random.randint(100, 999))
 
 
 
