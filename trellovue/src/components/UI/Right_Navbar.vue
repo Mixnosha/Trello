@@ -19,7 +19,7 @@
           </div>
           <div class="add"
                style="border-radius: 5px;padding-right:10px; padding-left: 10px; font-weight: normal;color: #596477; font-size: 24px; display: flex; align-items: center; justify-content: center"
-              @click="new_wk=true">
+               @click="new_wk=true">
             +
           </div>
         </div>
@@ -71,44 +71,55 @@
         <div class="new__wk-form">
           <div class="form-title" style="padding-bottom: 32px">
             <div style="font-size: 12px; font-weight: 700; padding-bottom: 4px">Название рабочего пространства</div>
-            <div style="padding-bottom: 4px"><input
-                style="width: 100%; height: 48px; border-radius: 2px; border: 2px solid rgba(128,128,128,0.47)"
-                type="text" placeholder="Компания <<Тако>>"></div>
+            <div style="padding-bottom: 4px"><input v-model="newWkForm.title"
+                                                    style="width: 100%; height: 48px; border-radius: 2px; border: 2px solid rgba(128,128,128,0.47)"
+                                                    type="text" placeholder="Компания <<Тако>>"></div>
             <div style="font-size: 12px; color: gray">Укажите название вашей команды, компании или организации.</div>
           </div>
           <div class="form-title" style="padding-bottom: 32px">
             <div style="font-size: 12px; font-weight: 700; padding-bottom: 4px">Тип рабочего пространства</div>
             <div style="color: gray">
-              <select
-                  style="background: white; border-radius: 4px; border: 2px solid rgba(128,128,128,0.47); width: 100%; height: 42px; color: rgba(0,0,0,0.72); font-size: 16px; padding-left: 12px">
+              <select v-model="newWkForm.status"
+                      style="background: white; border-radius: 4px; border: 2px solid rgba(128,128,128,0.47); width: 100%; height: 42px; color: rgba(0,0,0,0.72); font-size: 16px; padding-left: 12px">
                 <option style="height: 20px" value="">Выбрать...</option>
-                <option value="">Операции</option>
-                <option value="">Образование</option>
-                <option value="">Продажи CRM</option>
-                <option value="">Малый бизнес</option>
-                <option value="">Управление Персоналом</option>
-                <option value="">Маркейтинг</option>
+                <option value=3>Операции</option>
+                <option value=2>Образование</option>
+                <option value=4>Продажи CRM</option>
+                <option value=1>Малый бизнес</option>
+                <option value=2>Управление Персоналом</option>
+                <option value=5>Маркейтинг</option>
+                <option value=6>Инженерия IT</option>
+                <option value=7>Образование</option>
+                <option value=8>Другое</option>
               </select></div>
           </div>
 
           <div class="form-title" style="padding-bottom: 24px">
             <div class="" style="display:flex; align-items: center;">
-              <div style="font-size: 12px; font-weight: 700; padding-bottom: 4px; padding-right: 2px">Описание рабочего пространства</div>
+              <div style="font-size: 12px; font-weight: 700; padding-bottom: 4px; padding-right: 2px">Описание рабочего
+                пространства
+              </div>
               <div class="" style="color: rgba(128,128,128,0.67); font-size: 12px">Необязательно</div>
             </div>
-            <textarea style="resize: none; padding: 10px; width: 100%; height: 120px;border-radius: 2px; border: 2px solid rgba(128,128,128,0.47); font-size: 15px"
-              placeholder="Здесь наша команда хранит всю нужную информацию."></textarea>
+            <textarea v-model="newWkForm.description"
+                      style="resize: none; padding: 10px; width: 100%; height: 120px;border-radius: 2px; border: 2px solid rgba(128,128,128,0.47); font-size: 15px"
+                      placeholder="Здесь наша команда хранит всю нужную информацию."></textarea>
             <div style="font-size: 12px; color: gray">Расскажите участникам немного о рабочем пространстве.</div>
           </div>
           <div>
-            <button style="width: 100%; height: 48px; background: #0265f8; border: none; color: white; border-radius: 4px">Продолжить</button>
+            <button @click="sendWkForm"
+                style="width: 100%; height: 48px; background: #0265f8; border: none; color: white; border-radius: 4px">
+              Продолжить
+            </button>
           </div>
         </div>
       </div>
       <div class="image__wk" style="width: 50%; height: 100%">
         <div style="display: flex; align-items: center; padding-top: 20px;">
           <div style="padding-right: 94%"></div>
-          <div @click="new_wk=false" class="close__wk-cr" style="color: #42526e; font-size: 32px; cursor: pointer">+</div>
+          <div @click="new_wk=false" class="close__wk-cr"
+               style="transform: rotate(45deg);color: #42526e; font-size: 32px; cursor: pointer">+
+          </div>
         </div>
         <img src="@/static/images/empty_board.svg" style="padding-top: 80px; padding-left: 90px;">
       </div>
@@ -128,6 +139,11 @@ export default {
     return {
       menu_visible: false,
       new_wk: false,
+      newWkForm: {
+        title: '',
+        status: '',
+        description: '',
+      }
     }
   },
   methods: {
@@ -135,10 +151,9 @@ export default {
       setWorkspaces: 'navbar/setWorkspaces',
     }),
     newWk() {
-      if (this.new_wk === false){
+      if (this.new_wk === false) {
         return {display: 'none'}
-      }
-      else{
+      } else {
         return {new_wk: 'flex'}
       }
     },
@@ -149,6 +164,24 @@ export default {
         }
       }).then(res => {
         this.setWorkspaces(res.data)
+      })
+    },
+    sendWkForm() {
+      axios.post('http://192.168.100.6:8000/api/v1/workspace/', {
+        title: this.newWkForm.title,
+        status: 1,
+        type: Number(this.newWkForm.status),
+      }, {
+        headers: {
+          'Authorization': `Token ${Cookies.get('token')}`
+        }
+      }).then(res => {
+        console.log(res.status)
+        if (res.status === 201){
+          this.$router.push({ name: 'pageWk', params: { slug: 'tako123' }})
+        }
+        else {
+          console.log('произошла внутрення ошибка сервера')}
       })
     },
     menuVisible(el) {
