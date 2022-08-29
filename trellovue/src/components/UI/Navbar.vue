@@ -106,7 +106,7 @@ export default {
     async loadEmail() {
       this.setToken(Cookies.get('token'))
       this.setUsername(Cookies.get('username'))
-      const res = await axios.get('http:///192.168.100.6:8000/api/v1/auth/users', {
+      const res = await axios.get('http://127.0.0.1:8000/api/v1/auth/users', {
         headers: {
           'Authorization': `Token ${this.token}`
         }
@@ -116,7 +116,7 @@ export default {
       Cookies.set('email', email)
     },
     Logout() {
-      axios.post("http://192.168.100.6:8000/api/v1/auth/token/logout", {}, {
+      axios.post("http://127.0.0.1:8000/api/v1/auth/token/logout", {}, {
         headers: {
           'Authorization': `Token ${this.token}`
         }
@@ -291,6 +291,7 @@ header {
 
 
 .wk__open {
+  z-index: 2;
   margin-top: 3px;
   padding: 0px 0px 2px 0px;
   margin-left: 84px;

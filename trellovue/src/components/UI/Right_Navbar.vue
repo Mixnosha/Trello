@@ -158,7 +158,7 @@ export default {
       }
     },
     loadWK() {
-      axios.get('http://192.168.100.6:8000/api/v1/workspace/', {
+      axios.get('http://127.0.0.1:8000/api/v1/workspace/', {
         headers: {
           'Authorization': `Token ${Cookies.get('token')}`
         }
@@ -167,7 +167,7 @@ export default {
       })
     },
     sendWkForm() {
-      axios.post('http://192.168.100.6:8000/api/v1/workspace/', {
+      axios.post('http://127.0.0.1:8000/api/v1/workspace/', {
         title: this.newWkForm.title,
         status: 1,
         type: Number(this.newWkForm.status),

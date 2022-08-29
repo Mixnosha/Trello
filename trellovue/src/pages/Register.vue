@@ -86,7 +86,7 @@ export default {
       Login: 'user/Login',
     }),
     async Login(){
-      const log_data = await axios.post('http://192.168.100.6:8000/api/v1/auth/token/login/', {
+      const log_data = await axios.post('http://127.0.0.1:8000/api/v1/auth/token/login/', {
         username: this.form.username,
         password: this.form.password1,
       }).catch(
@@ -99,7 +99,7 @@ export default {
     },
     async sendForm(){
       if (this.form_status==='reg'){
-        const reg_data = await axios.post("http://192.168.100.6:8000/api/v1/register", {
+        const reg_data = await axios.post("http://127.0.0.1:8000/api/v1/register", {
           username: this.form.username,
           first_name: this.form.first_name,
           email: this.form.email,

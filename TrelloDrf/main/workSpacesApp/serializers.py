@@ -51,10 +51,11 @@ class WorkSpaceCreateSerializer(serializers.ModelSerializer):
     """Создание рабочего пространства"""
     description = serializers.CharField(required=False)
     slug = serializers.CharField(required=False)
+    id = serializers.IntegerField(required=False)
 
     class Meta:
         model = WorkSpaces
-        fields = ['title', 'status', 'type', 'description', 'slug']
+        fields = ['id', 'title', 'status', 'type', 'description', 'slug']
 
     def create(self, validated_data):
         adm_user = CustomUser.objects.get(user__username=self.context['request'].user)
@@ -63,6 +64,7 @@ class WorkSpaceCreateSerializer(serializers.ModelSerializer):
             slug=get_slug(validated_data.get('title'))
         )
         wk.admin_users.add(adm_user.id)
+        wk.slug = wk.slug + str(wk.id)
         return wk
 
 

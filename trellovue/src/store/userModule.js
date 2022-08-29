@@ -27,7 +27,7 @@ export const userModule = {
     actions: {
         async Login({state, commit}) {
             Cookies.set('username', state.username, {expires: 90})
-            const res = await axios.post('http://192.168.100.6:8000/api/v1/auth/token/login', {
+            const res = await axios.post('http://127.0.0.1:8000/api/v1/auth/token/login', {
                 password: state.password,
                 username: state.username
             })

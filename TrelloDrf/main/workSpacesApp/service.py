@@ -10,7 +10,7 @@ def get_slug(title):
             slug += word.lower()
             break
         slug += word + '_'
-    return slug + str(random.randint(100, 999))
+    return slug
 
 
 

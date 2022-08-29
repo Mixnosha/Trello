@@ -52,7 +52,7 @@ export default {
   methods: {
     async loadWk(){
         let id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2))
-        const res = await axios.get(`http://192.168.100.6:8000/api/v1/workspace/${id}`, {
+        const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${id}`, {
           headers: {
             'Authorization': `Token ${Cookies.get('token')}`
           }
@@ -69,6 +69,7 @@ export default {
 
 <style scoped>
 .wk__menu{
+  z-index: 1;
   margin-top: 44px;
   background: white;
   width: 20%;
