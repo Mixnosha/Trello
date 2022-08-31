@@ -33,7 +33,14 @@
         <div class="board"></div>
       </div>
     </div>
-    <div class="wk__main" style="height: 2000px"></div>
+    <div class="wk__main" style="height: 2000px">
+      <div class="const__wk" style="width: 1800px; height: 400px">
+
+      </div>
+      <div class="boards__wk">
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -94,5 +101,10 @@ export default {
 }
 .el:hover{
   background: rgba(222, 222, 222, 0.58);
+}
+
+
+.const__wk{
+  background: red;
 }
 </style>
