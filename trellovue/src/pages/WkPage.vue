@@ -51,24 +51,27 @@
           <div class="right_el" style="display: flex">
             <img :src="wk__logo" alt="" style="width: 70px; height: 70px; border-radius: 6px">
             <div style="padding-left: 12px">
-              <div style="display: flex; align-items: center; padding-bottom: 4px">
+              <div style="display: flex; align-items: center; padding-bottom: 2px">
                 <span
-                    style="font-size: 22px; font-weight: 700; padding-right: 5px; height: auto;">{{ wk__title }}</span>
+                    style="font-size: 20px; font-weight: 700; padding-right: 5px; height: auto;">{{ wk__title }}</span>
                 <div class="update__inf">
                   <img style="width: 14px" src="@/static/images/settings_page/pencil.svg" alt="">
                 </div>
               </div>
-              <div style="display: flex; align-items: center; padding-bottom: 4px">
+              <div style="display: flex; align-items: center; padding-bottom: 2px">
                 <img src="@/static/images/settings_page/lock.svg" style="width:14px; margin-right: 4px; ">
-                <span style="color: #6c6c6c">{{ wk__status }}</span>
+                <span style="color: #6c6c6c; font-size: 12px">{{ wk__status }}</span>
               </div>
-              <div style="color: #6c6c6c">
+              <div style="color: #6c6c6c; font-size: 12px">
                 {{ wk_descr }}
               </div>
             </div>
           </div>
         </div>
+        <button class="my_btn"><img src="@/static/images/settings_page/add_member.svg" style="width: 17px;padding-right: 2px">
+          Пригласите пользователей в рабочее пространство</button>
       </div>
+      <hr style="width: 96%; margin: 0 auto">
       <div class="boards__wk">
 
       </div>
@@ -148,15 +151,17 @@ export default {
   width: 100%;
   padding-left: 120px;
   padding-top: 40px;
+  display: flex;
   padding-bottom: 40px;
 }
 
 .wk__main {
-  width: 100%;
+  position: relative;
+  width: 1600px;
   height: 300px;
-  padding-top: 46px;
-  padding-left: 305px;
-
+  display: flex;
+  left: 184px;
+  top: 34px;
 
 }
 
@@ -175,5 +180,15 @@ export default {
   background: rgba(108, 108, 108, 0.32);
 }
 
+.my_btn{
+  background: #0079bf;
+  border: none;
+  box-sizing: border-box;
+  border-radius: 3px;
+  color: white;
+  padding: 2px 6px;
+  height: 32px;
+  margin-left: auto;
+}
 
 </style>
