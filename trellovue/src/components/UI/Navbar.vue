@@ -1,5 +1,5 @@
 <template>
-  <div style="position: fixed; width: 100%">
+  <div style="position: fixed; width: 100%; z-index: 1;">
   <header>
     <div class="header__logo">Trello</div>
     <nav class="header__nav">
@@ -291,7 +291,7 @@ header {
 
 
 .wk__open {
-  z-index: 2;
+  z-index: 1;
   margin-top: 3px;
   padding: 0px 0px 2px 0px;
   margin-left: 84px;

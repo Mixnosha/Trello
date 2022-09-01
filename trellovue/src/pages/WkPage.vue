@@ -1,41 +1,73 @@
 <template>
   <navbar></navbar>
-  <div style="display: flex"><div class="wk__menu">
-      <div class="wk__title-logo" style="display: flex; align-items: center; outline: 1px solid rgba(84, 83, 83, 0.32);">
+  <div style="display: flex">
+    <div class="wk__menu">
+      <div class="wk__title-logo"
+           style="display: flex; align-items: center; outline: 1px solid rgba(84, 83, 83, 0.32);">
         <div class="logo">
-          <img :src="wk__logo" width="36" height="36" style="border-radius: 4px; margin-right: 4px; cursor: pointer;" alt="">
+          <img :src="wk__logo" width="36" height="36" style="border-radius: 4px; margin-right: 4px; cursor: pointer;"
+               alt="">
         </div>
         <div>
-        <div class="lbl" style="font-size: 14px; font-weight: 700; cursor: pointer;">{{wk__title}}</div>
-        <div style="font-size: 12px; color: #42526e">Бесплатно</div>
+          <div class="lbl" style="font-size: 14px; font-weight: 700; cursor: pointer;">{{ wk__title }}</div>
+          <div style="font-size: 12px; color: #42526e">Бесплатно</div>
         </div>
       </div>
-      <div class="el__wk" style="padding-top: 14px" >
+      <div class="el__wk" style="padding-top: 14px">
         <div class="el" style="">
-          <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/square-board.svg" style="width: 14px; border-radius: 2px" alt=""></div>
+          <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/square-board.svg"
+                                                                  style="width: 14px; border-radius: 2px" alt=""></div>
           <div class="el__lbl" style="font-size: 14px">Доски</div>
         </div>
         <div class="el" style="">
-          <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/networking.svg" style="width: 14px; border-radius: 2px" alt=""></div>
+          <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/networking.svg"
+                                                                  style="width: 14px; border-radius: 2px" alt=""></div>
           <div class="el__lbl" style="font-size: 14px">Участники</div>
-          <div class="add__user" style="display: flex; justify-content: center; width: 24px; color: #6c6c6c; border-radius: 4px; font-size: 20px; margin-left: 50%">+</div>
+          <div class="add__user"
+               style="display: flex; justify-content: center; width: 24px; color: #6c6c6c; border-radius: 4px; font-size: 20px; margin-left: 50%">
+            +
+          </div>
         </div>
         <div class="el" style="">
-          <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/settings.svg" style="width: 14px; border-radius: 2px" alt=""></div>
+          <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/settings.svg"
+                                                                  style="width: 14px; border-radius: 2px" alt=""></div>
           <div class="el__lbl" style="font-size: 14px">Настройки</div>
         </div>
       </div>
       <div class="my_boards" style="padding-top: 18px;">
         <div class="boards__title" style="display: flex; align-items: center">
           <div class="some__title" style="font-weight: 700; font-size: 14px; padding-left: 16px">Мои доски</div>
-          <div class="add__user" style="display: flex; justify-content: center; width: 24px; color: #6c6c6c; border-radius: 4px; font-size: 20px; margin-left: 54%">+</div>
+          <div class="add__user"
+               style="display: flex; justify-content: center; width: 24px; color: #6c6c6c; border-radius: 4px; font-size: 20px; margin-left: 54%">
+            +
+          </div>
         </div>
         <div class="board"></div>
       </div>
     </div>
-    <div class="wk__main" style="height: 2000px">
-      <div class="const__wk" style="width: 1800px; height: 400px">
-
+    <div class="wk__main">
+      <div class="const__wk">
+        <div class="top_block_elements" style="">
+          <div class="right_el" style="display: flex">
+            <img :src="wk__logo" alt="" style="width: 70px; height: 70px; border-radius: 6px">
+            <div style="padding-left: 12px">
+              <div style="display: flex; align-items: center; padding-bottom: 4px">
+                <span
+                    style="font-size: 22px; font-weight: 700; padding-right: 5px; height: auto;">{{ wk__title }}</span>
+                <div class="update__inf">
+                  <img style="width: 14px" src="@/static/images/settings_page/pencil.svg" alt="">
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; padding-bottom: 4px">
+                <img src="@/static/images/settings_page/lock.svg" style="width:14px; margin-right: 4px; ">
+                <span style="color: #6c6c6c">{{ wk__status }}</span>
+              </div>
+              <div style="color: #6c6c6c">
+                {{ wk_descr }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="boards__wk">
 
@@ -48,35 +80,39 @@
 import Navbar from "@/components/UI/Navbar";
 import axios from "axios";
 import Cookies from "js-cookie";
+
 export default {
   components: {Navbar},
-  data(){
+  data() {
     return {
       wk__title: '',
       wk__logo: '',
+      wk__status: '',
+      wk_descr: '',
     }
   },
   methods: {
-    async loadWk(){
-        let id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2))
-        const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${id}`, {
-          headers: {
-            'Authorization': `Token ${Cookies.get('token')}`
-          }
-        })
+    async loadWk() {
+      let id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2))
+      const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${id}`, {
+        headers: {
+          'Authorization': `Token ${Cookies.get('token')}`
+        }
+      })
       this.wk__title = res.data.title
       this.wk__logo = res.data.logo
+      this.wk__status = res.data.status.title
+      this.wk_descr = res.data.description
     }
   },
   mounted() {
     this.loadWk()
-}
+  }
 }
 </script>
 
 <style scoped>
-.wk__menu{
-  z-index: 1;
+.wk__menu {
   margin-top: 44px;
   background: white;
   width: 20%;
@@ -84,13 +120,16 @@ export default {
   position: fixed;
   outline: 1px solid rgba(84, 83, 83, 0.32);
 }
-.wk__title-logo{
+
+.wk__title-logo {
   padding: 16px;
 }
-.add__user:hover{
+
+.add__user:hover {
   background: rgba(175, 174, 174, 0.58);
 }
-.el{
+
+.el {
   display: flex;
   width: 100%;
   padding-left: 16px;
@@ -99,12 +138,42 @@ export default {
   cursor: pointer;
   transition: background-color 64ms;
 }
-.el:hover{
+
+.el:hover {
   background: rgba(222, 222, 222, 0.58);
 }
 
 
-.const__wk{
-  background: red;
+.const__wk {
+  width: 100%;
+  padding-left: 120px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
+
+.wk__main {
+  width: 100%;
+  height: 300px;
+  padding-top: 46px;
+  padding-left: 305px;
+
+
+}
+
+.update__inf {
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 64ms;
+  cursor: pointer;
+}
+
+.update__inf:hover {
+  background: rgba(108, 108, 108, 0.32);
+}
+
+
 </style>
