@@ -1,6 +1,6 @@
 <template>
   <navbar></navbar>
-  <div style="display: flex">
+  <main  style="">
     <div class="wk__menu">
       <div class="wk__title-logo"
            style="display: flex; align-items: center; outline: 1px solid rgba(84, 83, 83, 0.32);">
@@ -50,11 +50,12 @@
         <div class="top_block_elements" style="">
           <div class="right_el" style="display: flex">
             <img :src="wk__logo" alt="" style="width: 70px; height: 70px; border-radius: 6px">
-            <div style="padding-left: 12px">
+            <!-- ================= Block title ======================-->
+            <div style="padding-left: 12px;" :class="[readMenuVis?'menuNone':'']">
               <div style="display: flex; align-items: center; padding-bottom: 2px">
                 <span
                     style="font-size: 20px; font-weight: 700; padding-right: 5px; height: auto;">{{ wk__title }}</span>
-                <div class="update__inf">
+                <div class="update__inf" @click="readMenuVis === false?readMenuVis=true:readMenuVis=false">
                   <img style="width: 14px" src="@/static/images/settings_page/pencil.svg" alt="">
                 </div>
               </div>
@@ -66,17 +67,55 @@
                 {{ wk_descr }}
               </div>
             </div>
+            <!-- ================= Read menu ======================-->
+            <div :class="[readMenuVis?'read_menu':'menuNone']">
+              <div class="el__form">
+                <div style="display: flex">
+                  <span class="title__form">Название</span>
+                  <span style="color: #f55e5e">*</span>
+                </div>
+                <input type="text" class="input__form">
+              </div>
+
+              <div class="el__form">
+                <div style="display: flex">
+                  <span class="title__form">Короткое название</span>
+                  <span style="color: #f55e5e">*</span>
+                </div>
+                <input type="text" class="input__form">
+              </div>
+
+              <div class="el__form">
+                <div style="display: flex">
+                  <span class="title__form">Сайт (опционально)</span>
+                  <span style="color: #ffff">*</span>
+                </div>
+                <input type="text" class="input__form">
+              </div>
+
+              <div class="el__form">
+                <div style="display: flex">
+                  <span class="title__form">Название</span>
+                  <span style="color: #f55e5e">*</span>
+                </div>
+                <textarea  type="text" class="area"></textarea>
+              </div>
+              <button class="my_btn" style="margin-right: 4px;">Сохранить</button>
+              <button class="btn_close" @click="readMenuVis=false">Отмена</button>
+            </div>
           </div>
         </div>
         <button class="my_btn"><img src="@/static/images/settings_page/add_member.svg" style="width: 17px;padding-right: 2px">
           Пригласите пользователей в рабочее пространство</button>
+
       </div>
+
       <hr style="width: 96%; margin: 0 auto">
       <div class="boards__wk">
 
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -92,6 +131,7 @@ export default {
       wk__logo: '',
       wk__status: '',
       wk_descr: '',
+      readMenuVis: false,
     }
   },
   methods: {
@@ -106,7 +146,9 @@ export default {
       this.wk__logo = res.data.logo
       this.wk__status = res.data.status.title
       this.wk_descr = res.data.description
-    }
+    },
+  },
+  watch: {
   },
   mounted() {
     this.loadWk()
@@ -157,11 +199,10 @@ export default {
 
 .wk__main {
   position: relative;
-  width: 1600px;
+  width: 1200px;
   height: 300px;
-  display: flex;
-  left: 184px;
-  top: 34px;
+  left: 300px;
+  top: 60px;
 
 }
 
@@ -189,6 +230,58 @@ export default {
   padding: 2px 6px;
   height: 32px;
   margin-left: auto;
+  transition: background-color 64ms;
 }
 
+.my_btn:hover{
+  background: #01629a;
+}
+
+.read_menu{
+  padding: 5px 20px;
+}
+.el__form{
+  padding-bottom: 20px;
+}
+.input__form{
+  outline: 3px solid #cbcbcb;
+  border-radius: 2px;
+  border: none;
+  height: 34px;
+}
+
+.title__form{
+  color: #8d8787;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.area{
+  resize: none;
+  width: 100%;
+  height: 62px;
+  outline: 3px solid #cbcbcb;
+  border-radius: 2px;
+  border: none;
+}
+
+.btn_close{
+  background: rgba(198, 200, 201, 0.43);
+  border: none;
+  box-sizing: border-box;
+  border-radius: 3px;
+  color: #3f3f3f;
+  padding: 2px 6px;
+  height: 32px;
+  margin-left: auto;
+  transition: background-color 64ms;
+}
+
+.btn_close:hover{
+  background: rgba(138, 139, 140, 0.43);
+}
+
+.menuNone{
+  display: none;
+}
 </style>
