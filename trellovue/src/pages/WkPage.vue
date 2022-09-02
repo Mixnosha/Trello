@@ -5,11 +5,11 @@
       <div class="wk__title-logo"
            style="display: flex; align-items: center; outline: 1px solid rgba(84, 83, 83, 0.32);">
         <div class="logo">
-          <img :src="wk__logo" width="36" height="36" style="border-radius: 4px; margin-right: 4px; cursor: pointer;"
+          <img :src="wk.logo" width="36" height="36" style="border-radius: 4px; margin-right: 4px; cursor: pointer;"
                alt="">
         </div>
         <div>
-          <div class="lbl" style="font-size: 14px; font-weight: 700; cursor: pointer;">{{ wk__title }}</div>
+          <div class="lbl" style="font-size: 14px; font-weight: 700; cursor: pointer;">{{ wk.title }}</div>
           <div style="font-size: 12px; color: #42526e">Бесплатно</div>
         </div>
       </div>
@@ -49,22 +49,22 @@
       <div class="const__wk">
         <div class="top_block_elements" style="">
           <div class="right_el" style="display: flex">
-            <img :src="wk__logo" alt="" style="width: 70px; height: 70px; border-radius: 6px">
+            <img :src="wk.logo" alt="" style="width: 70px; height: 70px; border-radius: 6px">
             <!-- ================= Block title ======================-->
             <div style="padding-left: 12px;" :class="[readMenuVis?'menuNone':'']">
               <div style="display: flex; align-items: center; padding-bottom: 2px">
                 <span
-                    style="font-size: 20px; font-weight: 700; padding-right: 5px; height: auto;">{{ wk__title }}</span>
+                    style="font-size: 20px; font-weight: 700; padding-right: 5px; height: auto;">{{ wk.title }}</span>
                 <div class="update__inf" @click="readMenuVis === false?readMenuVis=true:readMenuVis=false">
                   <img style="width: 14px" src="@/static/images/settings_page/pencil.svg" alt="">
                 </div>
               </div>
               <div style="display: flex; align-items: center; padding-bottom: 2px">
                 <img src="@/static/images/settings_page/lock.svg" style="width:14px; margin-right: 4px; ">
-                <span style="color: #6c6c6c; font-size: 12px">{{ wk__status }}</span>
+                <span style="color: #6c6c6c; font-size: 12px">{{ wk.status }}</span>
               </div>
               <div style="color: #6c6c6c; font-size: 12px">
-                {{ wk_descr }}
+                {{ wk.description }}
               </div>
             </div>
             <!-- ================= Read menu ======================-->
@@ -74,7 +74,7 @@
                   <span class="title__form">Название</span>
                   <span style="color: #f55e5e">*</span>
                 </div>
-                <input type="text" class="input__form">
+                <input type="text" class="input__form" v-model="wk.title">
               </div>
 
               <div class="el__form">
@@ -82,7 +82,7 @@
                   <span class="title__form">Короткое название</span>
                   <span style="color: #f55e5e">*</span>
                 </div>
-                <input type="text" class="input__form">
+                <input type="text" class="input__form" v-model="wk.slug">
               </div>
 
               <div class="el__form">
@@ -90,17 +90,17 @@
                   <span class="title__form">Сайт (опционально)</span>
                   <span style="color: #ffff">*</span>
                 </div>
-                <input type="text" class="input__form">
+                <input type="text" class="input__form" v-model="wk.web_site">
               </div>
 
               <div class="el__form">
                 <div style="display: flex">
-                  <span class="title__form">Название</span>
+                  <span class="title__form">Описание (опционально)</span>
                   <span style="color: #f55e5e">*</span>
                 </div>
-                <textarea  type="text" class="area"></textarea>
+                <textarea  type="text" class="area" v-model="wk.description"></textarea>
               </div>
-              <button class="my_btn" style="margin-right: 4px;">Сохранить</button>
+              <button class="my_btn" @click="readInfoWk" style="margin-right: 4px;">Сохранить</button>
               <button class="btn_close" @click="readMenuVis=false">Отмена</button>
             </div>
           </div>
@@ -127,26 +127,49 @@ export default {
   components: {Navbar},
   data() {
     return {
-      wk__title: '',
-      wk__logo: '',
-      wk__status: '',
-      wk_descr: '',
+      wk: {
+        title: '',
+        logo: '',
+        status: '',
+        description: '',
+        slug: '',
+        web_site: '',
+      },
+      id: '',
       readMenuVis: false,
     }
   },
   methods: {
     async loadWk() {
-      let id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2))
-      const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${id}`, {
+      this.id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2))
+      const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${this.id}`, {
         headers: {
           'Authorization': `Token ${Cookies.get('token')}`
         }
       })
-      this.wk__title = res.data.title
-      this.wk__logo = res.data.logo
-      this.wk__status = res.data.status.title
-      this.wk_descr = res.data.description
+      this.wk.title = res.data.title
+      this.wk.logo = res.data.logo
+      this.wk.status = res.data.status.title
+      this.wk.description = res.data.description
+      this.wk.slug = res.data.slug
+      this.wk.web_site = res.data.web_site
     },
+    async readInfoWk() {
+      const res = await axios.put(`http://127.0.0.1:8000/api/v1/workspace/${this.id}/`, {
+        title: this.wk.title,
+        slug: this.wk.slug,
+        web_site: this.wk.web_site,
+        description: this.wk.description,
+
+      }, {
+        headers: {
+          'Authorization': `Token ${Cookies.get('token')}`
+        }
+      })
+      if (res.status === 200){
+        this.readMenuVis = false
+      }
+    }
   },
   watch: {
   },
@@ -248,6 +271,7 @@ export default {
   border-radius: 2px;
   border: none;
   height: 34px;
+  padding-left: 12px;
 }
 
 .title__form{
@@ -263,6 +287,8 @@ export default {
   outline: 3px solid #cbcbcb;
   border-radius: 2px;
   border: none;
+  padding-left: 12px;
+  padding-top: 8px;
 }
 
 .btn_close{
