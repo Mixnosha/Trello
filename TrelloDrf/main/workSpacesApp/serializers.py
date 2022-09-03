@@ -44,6 +44,7 @@ class ViewOneWorkspacesSerializer(serializers.ModelSerializer):
             'description',
             'join_link',
             'admin_users',
+            'slug',
         ]
 
 
@@ -64,7 +65,8 @@ class WorkSpaceCreateSerializer(serializers.ModelSerializer):
             slug=get_slug(validated_data.get('title'))
         )
         wk.admin_users.add(adm_user.id)
-        wk.slug = wk.slug + str(wk.id)
+        wk.title = wk.title
+        wk.save()
         return wk
 
 
@@ -72,7 +74,8 @@ class UpdateWorkspacesSerializer(serializers.ModelSerializer):
     type = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     status = StatusViewSerializer(required=False)
-
+    slug = serializers.CharField(required=False)
+        
     class Meta:
         model = WorkSpaces
-        fields = ('title', 'logo', 'description', 'web_site', 'type', 'status')
+        fields = ('title', 'logo', 'description', 'web_site', 'type', 'status', 'slug')

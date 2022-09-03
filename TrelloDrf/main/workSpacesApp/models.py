@@ -31,8 +31,8 @@ class WorkSpaces(models.Model):
         return f'WorkSpace: {self.title}'
 
     def save(self, *args, **kwargs):
-        if self.title:
-            self.slug = get_slug(self.title)
+        if self.title and self.id:
+            self.slug = get_slug(self.title) + str(self.id)
         super(WorkSpaces, self).save(*args, **kwargs)
 
 
