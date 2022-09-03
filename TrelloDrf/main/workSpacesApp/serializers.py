@@ -21,7 +21,7 @@ class ViewAllWorkspacesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkSpaces
-        fields = ['id', 'title', 'logo']
+        fields = ['id', 'title', 'logo', 'slug']
 
 
 class ViewOneWorkspacesSerializer(serializers.ModelSerializer):

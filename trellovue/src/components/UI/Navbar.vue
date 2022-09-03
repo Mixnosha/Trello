@@ -32,8 +32,9 @@
         пространства
       </div>
 
-      <div style="padding-left: 12px; padding-right: 12px">
-        <div v-for="wk in workspaces" class="some-wk" style="display:flex; align-items: center; padding-left: 8px">
+      <div style="padding-left: 12px; padding-right: 12px" >
+        <div v-for="wk in workspaces" class="some-wk" style="display:flex; align-items: center; padding-left: 8px"
+             @click="this.$router.push({ name: 'pageWk', params: { slug: wk.slug }})">
           <img :src="wk.logo" width="38" style="border-radius: 4px">
           <div style="padding-left: 6px">{{ wk.title }}</div>
         </div>
