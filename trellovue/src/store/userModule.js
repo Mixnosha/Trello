@@ -31,7 +31,6 @@ export const userModule = {
                 password: state.password,
                 username: state.username
             })
-            console.log(res.data)
             commit('setToken', res.data.auth_token)
             Cookies.set('token', state.token, {expires: 90})
         }

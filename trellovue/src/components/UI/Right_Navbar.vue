@@ -157,15 +157,15 @@ export default {
         return {new_wk: 'flex'}
       }
     },
-    loadWK() {
-      axios.get('http://127.0.0.1:8000/api/v1/workspace/', {
-        headers: {
-          'Authorization': `Token ${Cookies.get('token')}`
-        }
-      }).then(res => {
-        this.setWorkspaces(res.data)
-      })
-    },
+    // loadWK() {
+    //   axios.get('http://127.0.0.1:8000/api/v1/workspace/', {
+    //     headers: {
+    //       'Authorization': `Token ${Cookies.get('token')}`
+    //     }
+    //   }).then(res => {
+    //     this.setWorkspaces(res.data)
+    //   })
+    // },
     sendWkForm() {
       axios.post('http://127.0.0.1:8000/api/v1/workspace/', {
         title: this.newWkForm.title,
@@ -201,7 +201,7 @@ export default {
   },
   watch: {},
   mounted() {
-    this.loadWK()
+    // this.loadWK()
   },
   computed: {
     ...mapState({
@@ -215,7 +215,7 @@ export default {
 
 .right__navbar {
   width: 258px;
-  padding: 40px 0px;
+  padding: 80px 0px;
   margin-left: 86px;
 
 }

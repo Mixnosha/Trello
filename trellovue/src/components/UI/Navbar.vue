@@ -1,7 +1,7 @@
 <template>
   <div style="position: fixed; width: 100%; z-index: 1;">
   <header>
-    <div class="header__logo">Trello</div>
+    <div class="header__logo" @click="this.$router.push({name: 'main'})">Trello</div>
     <nav class="header__nav">
     <div @click="wk__visible===false?setWk__visible(true):setWk__visible(false)" class="nav__btn">Рабочие пространства<img src="@/static/images/arrow.svg" class="nav__btn-svg"></div>
       <div class="nav__btn">Недавние<img src="@/static/images/arrow.svg" class="nav__btn-svg"></div>
@@ -61,9 +61,10 @@
   </div>
 </template>
 <script>
-import {mapMutations, mapState} from "vuex";
+import {mapMutations, mapState, mapActions} from "vuex";
 import axios from "axios";
 import Cookies from "js-cookie";
+
 
 export default {
   data() {
@@ -78,7 +79,6 @@ export default {
           document.getElementById('profileMenu').style.display = "none"
     }
 
-    /// написать открытие через реактивные классы
   },
   methods: {
     ...mapMutations({
@@ -87,6 +87,9 @@ export default {
       setUsername: 'user/setUsername',
       setProfileMenu: 'navbar/setProfileMenu',
       setWk__visible: 'navbar/setWk__visible',
+    }),
+    ...mapActions({
+      loadWk: 'navbar/loadWk',
     }),
     wkOpenFunck() {
       if (this.wk__visible === false){
@@ -142,6 +145,7 @@ export default {
   },
   mounted() {
     this.loadEmail()
+    this.loadWk()
   }
 }
 </script>
@@ -149,6 +153,13 @@ export default {
 <style scoped>
 .header__logo {
   font-weight: 700;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header__logo:hover{
+  background: rgba(150, 180, 231, 0.32);
 }
 
 .profile_menu {
