@@ -168,7 +168,10 @@ export default {
       })
       if (res.status === 200){
         this.readMenuVis = false
+        this.$router.push({ name: 'pageWk', params: { slug: this.wk.title + this.id }})
       }
+      setTimeout(() => { location.reload()}, 200);
+
     }
   },
   watch: {

@@ -176,8 +176,8 @@ export default {
           'Authorization': `Token ${Cookies.get('token')}`
         }
       }).then(res => {
-        console.log(res.status)
         if (res.status === 201){
+          console.log(res.data.slug)
           this.$router.push({ name: 'pageWk', params: { slug: res.data.slug }})
         }
         else {
