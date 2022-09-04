@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Register from "@/pages/Register";
 import Main from "@/pages/Main";
 import WkPage from "@/pages/WkPage";
+import Account from "@/pages/Account";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/w/:slug',
     name: 'pageWk',
     component: WkPage,
+  },
+  {
+    path: '/w/:slug/account',
+    name: 'Account',
+    component: Account,
   }
 ]
 

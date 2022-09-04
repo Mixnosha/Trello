@@ -46,13 +46,29 @@
 </template>
 
 <script>
+import WkConst from "@/components/UI/WkConst";
+import {mapActions, mapState, mapMutations} from "vuex";
 export default {
-  data() {
-    return {
-    }
+  components: {WkConst},
+  computed: {
+    ...mapState({
+      wk: state => state.oneWk.wk,
+      id: state => state.oneWk.id,
+    }),
   },
-  props: ['wk'],
+  methods: {
+    ...mapActions({
+      loadWk: 'oneWk/loadWk',
+    }),
+
+    ...mapMutations({
+      setWkId: 'oneWk/setWkId'
+    }),
+  },
   mounted() {
+    const id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2))
+    this.setWkId(id)
+    this.loadWk()
   }
 }
 </script>

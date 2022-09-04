@@ -1,6 +1,7 @@
 import {createStore} from "vuex";
 import {userModule} from "@/store/userModule";
 import {navbarModule} from "@/store/navbarModule";
+import {oneWk} from "@/store/OneWk";
 
 export default createStore({
     state: {
@@ -8,6 +9,7 @@ export default createStore({
     },
     modules: {
         user: userModule,
-        navbar: navbarModule
+        navbar: navbarModule,
+        oneWk: oneWk,
     }
 })
