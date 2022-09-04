@@ -12,10 +12,10 @@
           <hr>
           <div class="description_status">
             <div style="display: flex; align-items: center">
+              <div>
               <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
               <span style="padding-left: 6px; font-weight: 700">{{status.title}}</span>
-              <div>
-                &nbsp;- Приватное рабочее пространство. Оно  не видно никому кроме участников.
+                &nbsp;- Приватное рабочее пространство. Оно не индексируется и не видно никому кроме участников.
               </div>
             </div>
             <div>
@@ -76,19 +76,29 @@ export default {
 
 .description_status{
   display: flex;
-  align-items: center;
   margin-bottom: 40px;
 }
 
 .change__btn{
   border: none;
   outline: none;
-  padding: 4px;
   border-radius: 3px;
-  margin-left: 86%;
+  color: #424242;
+  background: rgba(215, 214, 214, 0.63);
+  transition: background-color 64ms;
+  margin-left: 24px;
+
+}
+
+.change__btn:hover{
+  background: rgba(173, 172, 172, 0.7);
 }
 
 .delete__wk{
   color: #fc3b3b;
+}
+
+.delete__wk:hover{
+  color: #6c6c6c;
 }
 </style>
