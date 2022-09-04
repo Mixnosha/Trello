@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: '/w/:slug/account',
-    name: 'Account',
+    name: 'account',
     component: Account,
   }
 ]

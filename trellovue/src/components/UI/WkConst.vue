@@ -14,7 +14,7 @@
           </div>
           <div style="display: flex; align-items: center; padding-bottom: 2px">
             <img src="@/static/images/settings_page/lock.svg" style="width:14px; margin-right: 4px; ">
-            <span style="color: #6c6c6c; font-size: 12px">{{ wk.status }}</span>
+            <span style="color: #6c6c6c; font-size: 12px">{{ wk.status.title }}</span>
           </div>
           <div style="color: #6c6c6c; font-size: 12px">
             {{ wk.description }}
@@ -67,6 +67,7 @@
 <script>
 import axios from "axios";
 import Cookies from "js-cookie";
+import {mapState} from "vuex";
 
 export default {
   data(){
@@ -74,7 +75,6 @@ export default {
       readMenuVis: false,
     }
   },
-  props: ['wk', 'id'],
   methods:{
     async readInfoWk() {
       const res = await axios.put(`http://127.0.0.1:8000/api/v1/workspace/${this.id}/`, {
@@ -93,10 +93,14 @@ export default {
         this.$router.push({ name: 'pageWk', params: { slug: this.wk.title + this.id }})
       }
       setTimeout(() => { location.reload()}, 200);
-
     }
-  }
-
+  },
+  computed: {
+    ...mapState({
+      wk: state => state.oneWk.wk,
+      id: state => state.oneWk.id,
+    }),
+  },
 }
 </script>
 
