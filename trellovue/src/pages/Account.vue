@@ -13,8 +13,8 @@
           <div class="description_status">
             <div style="display: flex; align-items: center">
               <div>
-              <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
-              <span style="padding-left: 6px; font-weight: 700">{{status.title}}</span>
+                <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
+                <span style="padding-left: 6px; font-weight: 700">{{ status.title }}</span>
                 &nbsp;- Приватное рабочее пространство. Оно не индексируется и не видно никому кроме участников.
               </div>
             </div>
@@ -23,9 +23,16 @@
             </div>
           </div>
 
-          <div >
+          <div>
             <a class="delete__wk" href="">Удалить рабочее пространство ?</a>
           </div>
+        </div>
+        <div class="change__status">
+          <div class="change__title">
+            <div class="title" style="padding-right: 40px">Выбрать видимость рабочего ... </div>
+            <img src="@/static/images/settings_page/close.png" alt="">
+          </div>
+          <hr style="padding: 0px">
         </div>
       </div>
 
@@ -43,10 +50,8 @@ import {mapState} from "vuex";
 export default {
   components: {WkLeftMenu, Navbar, WkConst},
 
-  data(){
-    return {
-
-    }
+  data() {
+    return {}
   },
   computed: {
     ...mapState({
@@ -65,21 +70,22 @@ export default {
   top: 60px;
 }
 
-.account__settings{
+.account__settings {
   padding: 40px 180px;
 }
-.wk__title{
+
+.wk__title {
   font-size: 18px;
 
   font-weight: 700;
 }
 
-.description_status{
+.description_status {
   display: flex;
   margin-bottom: 40px;
 }
 
-.change__btn{
+.change__btn {
   border: none;
   outline: none;
   border-radius: 3px;
@@ -90,15 +96,35 @@ export default {
 
 }
 
-.change__btn:hover{
+.change__btn:hover {
   background: rgba(173, 172, 172, 0.7);
 }
 
-.delete__wk{
+.delete__wk {
   color: #fc3b3b;
 }
 
-.delete__wk:hover{
+.delete__wk:hover {
+  color: #6c6c6c;
+}
+
+.change__status {
+  position: absolute;
+  height: 200px;
+  background-color: #ffffff;
+  left: 840px;
+  border-radius: 4px;
+  box-shadow: -5px 6px 10px rgba(155, 153, 153, 0.21);
+  outline: 1px solid rgba(192, 191, 191, 0.62);
+  bottom: -250px;
+
+}
+
+.change__title{
+  display: flex;
+  align-items: center;
+  padding: 10px 10px 0px 10px;
+  font-size: 16px;
   color: #6c6c6c;
 }
 </style>
