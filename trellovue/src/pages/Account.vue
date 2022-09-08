@@ -19,7 +19,7 @@
               </div>
             </div>
             <div>
-              <button class="change__btn">Изменить</button>
+              <button class="change__btn"  @click="menu_vis === 'none'?menu_vis = 'block':menu_vis = 'none';">Изменить</button>
             </div>
           </div>
 
@@ -29,11 +29,11 @@
         </div>
 
         <!-- ============== Change Form ============== -->
-        <div class="change__status">
+        <div class="change__status" :style="{display: menu_vis}">
 
           <div class="change__title">
             <div class="title" style="padding-right: 40px;">Выбрать видимость рабочего ...</div>
-            <img class="change__close" src="@/static/images/settings_page/close.svg" alt="">
+            <img @click="menu_vis='none'" class="change__close" src="@/static/images/settings_page/close.svg" alt="">
           </div>
           <div style=" display: flex; justify-content: center;">
             <hr style="margin:0; width: 90%;">
@@ -41,22 +41,16 @@
 
           <div class="change__text">
 
-            <!-- ============== Privat point ============== -->
-            <div class="change__title-menu">
-              <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
-              <strong style="padding-left: 4px">{{ status.title }}</strong>
-            </div>
-            <div class="change__description">
-              {{ status.description }}
-            </div>
-
-            <!-- ============== Public point ============== -->
-            <div class="change__title-menu">
-              <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
-              <strong style="padding-left: 4px">{{ status.title }}</strong>
-            </div>
-            <div class="change__description">
-              {{ status.description }}
+            <!-- ============== point ============== -->
+            <div class="change__all-text" v-for="st in all_status" style="padding-bottom: 10px">
+              <div class="change__title-menu" >
+                <img v-if="st.title === 'Приватная'" :src="img_lock" style="width: 12px;" alt="">
+                <img v-else :src="earth" style="width: 16px;" alt="">
+                <strong style="padding-left: 4px">{{ st.title }}</strong>
+              </div>
+              <div class="change__description">
+                {{ st.description }}
+              </div>
             </div>
           </div>
         </div>
@@ -64,7 +58,6 @@
 
     </div>
   </div>
-
 </template>
 
 <script>
@@ -72,17 +65,42 @@ import Navbar from "@/components/UI/Navbar";
 import WkLeftMenu from "@/components/UI/WkLeftMenu";
 import WkConst from "@/components/UI/WkConst";
 import {mapState} from "vuex";
+import axios from "axios";
+import Cookies from "js-cookie";
+import img_lock from '@/static/images/settings_page/lock.png';
+import earth from '@/static/images/settings_page/earth.png';
 
 export default {
   components: {WkLeftMenu, Navbar, WkConst},
 
   data() {
-    return {}
+    return {
+      all_status: '',
+      img_lock,
+      earth,
+      menu_vis: 'none',
+    }
+  },
+  methods: {
+    getStatus(){
+      axios.get('http://127.0.0.1:8000/api/v1/status/', {
+        headers: {
+          Authorization:  `Token ${Cookies.get('token')}`
+        }
+      }).then(res => {
+        this.all_status = res.data
+        console.log(res.data)
+      })
+    },
+
   },
   computed: {
     ...mapState({
       status: state => state.oneWk.wk.status
     })
+  },
+  mounted() {
+    this.getStatus()
   }
 }
 </script>
@@ -141,7 +159,7 @@ export default {
   border-radius: 4px;
   box-shadow: -5px 6px 10px rgba(155, 153, 153, 0.21);
   outline: 1px solid rgba(192, 191, 191, 0.62);
-  bottom: -250px;
+  bottom: -375px;
 
 }
 
@@ -171,6 +189,12 @@ export default {
   display: flex;
   align-items: center;
   padding-bottom: 6px;
+}
+.change__all-text{
+  cursor: pointer;
+}
+.change__all-text:hover{
+  background-color: rgba(158, 190, 236, 0.12);
 }
 
 .change__description {
