@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('authUser.urls')),
     path('api/v1/', include('workSpacesApp.urls')),
+    path('api/v1/', include('commentApp.urls'))
 
 ]
 

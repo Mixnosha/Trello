@@ -6,4 +6,4 @@ from commentApp.models import Status
 class StatusViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Status
-        fields = ['title']
+        fields = ['title', 'description']
