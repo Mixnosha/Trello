@@ -1,4 +1,5 @@
 <template>
+  <div @click="clickOut">
   <navbar></navbar>
   <div>
     <WkLeftMenu></WkLeftMenu>
@@ -19,7 +20,7 @@
               </div>
             </div>
             <div>
-              <button class="change__btn"  @click="menu_vis === 'none'?menu_vis = 'block':menu_vis = 'none';">Изменить</button>
+              <button id="btn__change" class="change__btn"  @click="menu_vis === 'none'?menu_vis = 'block':menu_vis = 'none';">Изменить</button>
             </div>
           </div>
 
@@ -29,7 +30,7 @@
         </div>
 
         <!-- ============== Change Form ============== -->
-        <div class="change__status" :style="{display: menu_vis}">
+        <div id="nav" class="change__status" :style="{display: menu_vis}">
 
           <div class="change__title">
             <div class="title" style="padding-right: 40px;">Выбрать видимость рабочего ...</div>
@@ -57,6 +58,7 @@
       </div>
 
     </div>
+  </div>
   </div>
 </template>
 
@@ -89,10 +91,14 @@ export default {
         }
       }).then(res => {
         this.all_status = res.data
-        console.log(res.data)
       })
     },
-
+    clickOut(e){
+      if (e.target.id !== 'btn__change'){
+        let a = document.getElementById('nav')
+        this.menu_vis = 'none'
+      }
+    }
   },
   computed: {
     ...mapState({
@@ -103,6 +109,7 @@ export default {
     this.getStatus()
   }
 }
+
 </script>
 
 <style scoped>
