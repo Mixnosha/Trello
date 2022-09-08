@@ -15,7 +15,7 @@
               <div>
                 <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
                 <span style="padding-left: 6px; font-weight: 700">{{ status.title }}</span>
-                &nbsp;- Приватное рабочее пространство. Оно не индексируется и не видно никому кроме участников.
+                &nbsp;- {{ status.description }}
               </div>
             </div>
             <div>
@@ -27,12 +27,38 @@
             <a class="delete__wk" href="">Удалить рабочее пространство ?</a>
           </div>
         </div>
+
+        <!-- ============== Change Form ============== -->
         <div class="change__status">
+
           <div class="change__title">
-            <div class="title" style="padding-right: 40px">Выбрать видимость рабочего ... </div>
-            <img src="@/static/images/settings_page/close.png" alt="">
+            <div class="title" style="padding-right: 40px;">Выбрать видимость рабочего ...</div>
+            <img class="change__close" src="@/static/images/settings_page/close.svg" alt="">
           </div>
-          <hr style="padding: 0px">
+          <div style=" display: flex; justify-content: center;">
+            <hr style="margin:0; width: 90%;">
+          </div>
+
+          <div class="change__text">
+
+            <!-- ============== Privat point ============== -->
+            <div class="change__title-menu">
+              <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
+              <strong style="padding-left: 4px">{{ status.title }}</strong>
+            </div>
+            <div class="change__description">
+              {{ status.description }}
+            </div>
+
+            <!-- ============== Public point ============== -->
+            <div class="change__title-menu">
+              <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
+              <strong style="padding-left: 4px">{{ status.title }}</strong>
+            </div>
+            <div class="change__description">
+              {{ status.description }}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -110,7 +136,6 @@ export default {
 
 .change__status {
   position: absolute;
-  height: 200px;
   background-color: #ffffff;
   left: 840px;
   border-radius: 4px;
@@ -120,11 +145,36 @@ export default {
 
 }
 
-.change__title{
+.change__title {
   display: flex;
   align-items: center;
-  padding: 10px 10px 0px 10px;
+  padding: 10px 10px 12px 40px;
   font-size: 16px;
   color: #6c6c6c;
+}
+
+.change__close {
+  border-radius: 4px;
+  transition: background-color 64ms;
+}
+
+.change__close:hover {
+  background: rgba(194, 192, 192, 0.34);
+}
+
+.change__text {
+  font-size: 14px;
+  padding: 10px 18px 18px 18px;
+}
+
+.change__title-menu {
+  display: flex;
+  align-items: center;
+  padding-bottom: 6px;
+}
+
+.change__description {
+  color: #6c6c6c;
+
 }
 </style>

@@ -92,7 +92,7 @@ DATABASES = {
         'USER': 'trello_user',
         'PASSWORD': 'Maksim21z',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
 
@@ -162,3 +162,4 @@ MEDIA_URL = '/images/'
 
 MEDIA_ROOT = BASE_DIR / 'static/images'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
