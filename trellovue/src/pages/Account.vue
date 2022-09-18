@@ -14,7 +14,9 @@
           <div class="description_status">
             <div style="display: flex; align-items: center">
               <div>
-                <img src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
+
+                <img v-if="status.title === 'Приватная'" src="@/static/images/settings_page/lock.png" style="width: 12px;" alt="">
+                <img v-else :src="earth" style="width: 16px;" alt="">
                 <span style="padding-left: 6px; font-weight: 700">{{ status.title }}</span>
                 &nbsp;- {{ status.description }}
               </div>
@@ -66,7 +68,7 @@
 import Navbar from "@/components/UI/Navbar";
 import WkLeftMenu from "@/components/UI/WkLeftMenu";
 import WkConst from "@/components/UI/WkConst";
-import {mapState} from "vuex";
+import {mapMutations, mapState} from "vuex";
 import axios from "axios";
 import Cookies from "js-cookie";
 import img_lock from '@/static/images/settings_page/lock.png';
@@ -84,6 +86,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setWkStatus: 'oneWk/setWkStatus'
+    }),
     getStatus(){
       axios.get('http://127.0.0.1:8000/api/v1/status/', {
         headers: {
@@ -100,8 +105,6 @@ export default {
       }
     },
     change_status(title, description){
-      console.log(title)
-      console.log(description)
       axios.put(`http://127.0.0.1:8000/api/v1/workspace/${this.id}/`, {
         status: {
           title: title,
@@ -111,9 +114,9 @@ export default {
         headers: {
           'Authorization': `Token ${Cookies.get('token')}`
         }
-      }).then(res => {
-        console.log(res)
       })
+      this.setWkStatus({title: title, description: description})
+
     }
   },
   computed: {

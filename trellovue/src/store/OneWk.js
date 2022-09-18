@@ -6,7 +6,10 @@ export const oneWk = {
         wk: {
             title: '',
             logo: '',
-            status: '',
+            status: {
+                title: '',
+                description: '',
+            },
             description: '',
             slug: '',
             web_site: '',
