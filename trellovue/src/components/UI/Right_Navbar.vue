@@ -158,6 +158,9 @@ export default {
       }
     },
     sendWkForm() {
+      console.log(this.newWkForm.title)
+      console.log(this.newWkForm.status)
+      console.log(this.newWkForm.description)
       axios.post('http://127.0.0.1:8000/api/v1/workspace/', {
         title: this.newWkForm.title,
         status: 1,

@@ -86,7 +86,7 @@
             <div class="delete">
               <div class="text__delete">Чтобы удалить рабочее пространство, введите его название</div>
               <input v-model="delete_input" class="delete_input" :placeholder="title" style="margin-bottom: 10px">
-              <button :class="{delete_btn_yes: permToDelete}" class="delete_btn">Удалить рабочее пространство</button>
+              <button @click="deleteWK" :class="{delete_btn_yes: permToDelete}" class="delete_btn">Удалить рабочее пространство</button>
             </div>
           </div>
         </div>
@@ -106,6 +106,7 @@ import Cookies from "js-cookie";
 import img_lock from '@/static/images/settings_page/lock.png';
 import earth from '@/static/images/settings_page/earth.png';
 import {oneWk} from "@/store/OneWk";
+import router from "@/router/router";
 
 export default {
   components: {WkLeftMenu, Navbar, WkConst},
@@ -137,6 +138,16 @@ export default {
     clickOut(e){
       if (e.target.id !== 'btn__change' && e.target.id !== 'delete__wk'){
         this.menu_vis = 'none'
+      }
+    },
+    async deleteWK(){
+      if (this.permToDelete){
+        await axios.delete(`http://127.0.0.1:8000/api/v1/workspace/${this.id}`, {
+          headers: {
+            'Authorization': `Token ${Cookies.get('token')}`
+          }
+        })
+        await router.push({name: 'main'})
       }
     },
     change_status(title, description){
