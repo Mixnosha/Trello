@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from boardsApp.serializers import ViewBoardsSerializer
+from commentApp.models import Status
 from commentApp.serializers import StatusViewSerializer
 from userApp.models import CustomUser
 from userApp.serializers import CustomUserViewAllSerializer
@@ -79,3 +80,19 @@ class UpdateWorkspacesSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkSpaces
         fields = ('title', 'logo', 'description', 'web_site', 'type', 'status', 'slug')
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.web_site = validated_data.get('web_site', instance.web_site)
+        instance.type = validated_data.get('type', instance.type)
+        if 'status' in validated_data:
+            instance.status = Status.objects.get(title=validated_data['status']['title'])
+        instance.slug = validated_data.get('slug', instance.slug)
+        instance.save()
+        return instance
+
+
+
+
+

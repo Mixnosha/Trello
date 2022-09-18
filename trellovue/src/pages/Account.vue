@@ -43,7 +43,7 @@
           <div class="change__text">
 
             <!-- ============== point ============== -->
-            <div class="change__all-text" v-for="st in all_status" style="padding-bottom: 10px">
+            <div class="change__all-text" v-for="st in all_status" style="padding-bottom: 10px"  @click="change_status(st.title, st.description)">
               <div class="change__title-menu" >
                 <img v-if="st.title === 'Приватная'" :src="img_lock" style="width: 12px;" alt="">
                 <img v-else :src="earth" style="width: 16px;" alt="">
@@ -98,11 +98,28 @@ export default {
         let a = document.getElementById('nav')
         this.menu_vis = 'none'
       }
+    },
+    change_status(title, description){
+      console.log(title)
+      console.log(description)
+      axios.put(`http://127.0.0.1:8000/api/v1/workspace/${this.id}/`, {
+        status: {
+          title: title,
+          description: description
+        }
+      }, {
+        headers: {
+          'Authorization': `Token ${Cookies.get('token')}`
+        }
+      }).then(res => {
+        console.log(res)
+      })
     }
   },
   computed: {
     ...mapState({
-      status: state => state.oneWk.wk.status
+      status: state => state.oneWk.wk.status,
+      id: state => state.oneWk.id
     })
   },
   mounted() {
