@@ -51,7 +51,6 @@ class ViewOneWorkspacesSerializer(serializers.ModelSerializer):
 
 class WorkSpaceCreateSerializer(serializers.ModelSerializer):
     """Создание рабочего пространства"""
-    description = serializers.CharField(required=False)
     slug = serializers.CharField(required=False)
     id = serializers.IntegerField(required=False)
 

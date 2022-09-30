@@ -15,4 +15,4 @@ class Status(models.Model):
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return str(self.id) + ' ' + self.title

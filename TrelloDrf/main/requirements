@@ -3,3 +3,5 @@ djangorestframework==3.13.1
 psycopg2==2.9.3
 drf-yasg==1.21.3
 djoser
+django-cors-headers==3.13.0
+Pillow==9.2.0
