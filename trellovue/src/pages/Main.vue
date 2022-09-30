@@ -2,7 +2,7 @@
   <navbar></navbar>
   <div style="display: flex">
   <right_-navbar></right_-navbar>
-  <div style="width: 100%; height: 800px" @click="setProfileMenu(false)">
+  <div class="main_home"  @click="setProfileMenu(false)">
 
   </div>
 
@@ -37,4 +37,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

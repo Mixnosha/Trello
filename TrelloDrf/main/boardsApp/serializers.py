@@ -18,7 +18,7 @@ class ViewBoardsSerializer(serializers.ModelSerializer):
 class BoardCreateSerializer(serializers.ModelSerializer):
     """ Создание доски для рабочего пространства"""
     slug = serializers.CharField(required=False)
-    status = StatusViewSerializer()
+    status = StatusViewSerializer(required=False)
 
     class Meta:
         model = Boards
@@ -63,6 +63,7 @@ class BoardUpdateSerializers(serializers.ModelSerializer):
             instance.title = new_title
             instance.slug = get_slug_board(new_title)
         instance.description = validated_data.get('description', instance.description)
-        instance.status = validated_data.get('status', instance.status)
+        if 'status' in validated_data:
+            instance.status = Status.objects.get(title=validated_data['status']['title'])
         instance.save()
         return instance

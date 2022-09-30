@@ -3,6 +3,7 @@ import Register from "@/pages/Register";
 import Main from "@/pages/Main";
 import WkPage from "@/pages/WkPage";
 import Account from "@/pages/Account";
+import HomeWK from "@/pages/HomeWK";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/w/:slug/account',
     name: 'account',
     component: Account,
+  },
+  {
+    path: '/w/:slug/home',
+    name: 'home',
+    component: HomeWK,
   }
 ]
 
