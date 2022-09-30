@@ -12,7 +12,7 @@ class Boards(models.Model):
     slug = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return f'Boards {self.title}' + str(self.id)
+        return f'Boards {self.title}' + " " + str(self.id)
 
 
 

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 
 from boardsApp.models import Boards
-from boardsApp.serializers import BoardCreateSerializer, BoardViewSerializers
+from boardsApp.serializers import BoardCreateSerializer, BoardViewSerializers, BoardUpdateSerializers
 
 
 class BoardsModelView(viewsets.ModelViewSet):
@@ -15,4 +15,6 @@ class BoardsModelView(viewsets.ModelViewSet):
             return BoardCreateSerializer
         if self.action == 'list':
             return BoardViewSerializers
+        if self.action == 'update':
+            return BoardUpdateSerializers
 

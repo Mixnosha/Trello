@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from boardsApp.service import get_slug_board
+from commentApp.models import Status
+from commentApp.serializers import StatusViewSerializer
 from workSpacesApp.models import WorkSpaces
 from boardsApp.models import Boards
 from userApp.models import CustomUser
@@ -16,6 +18,7 @@ class ViewBoardsSerializer(serializers.ModelSerializer):
 class BoardCreateSerializer(serializers.ModelSerializer):
     """ Создание доски для рабочего пространства"""
     slug = serializers.CharField(required=False)
+    status = StatusViewSerializer()
 
     class Meta:
         model = Boards
@@ -38,9 +41,26 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
 class BoardViewSerializers(serializers.ModelSerializer):
     """Просмотр всех досок пользователя """
+
     class Meta:
         model = Boards
         fields = ['id', 'title', 'background']
 
 
+class BoardUpdateSerializers(serializers.ModelSerializer):
+    slug = serializers.CharField(required=False)
+    title = serializers.CharField(required=False)
+    status = StatusViewSerializer(required=True)
 
+    class Meta:
+        model = Boards
+        fields = ['status', 'title', 'slug', 'description']
+
+    def update(self, instance, validated_data):
+        if (new_title := validated_data.get('title', instance.title)) != instance.title:
+            instance.title = new_title
+            instance.slug = get_slug_board(new_title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.status = validated_data.get('status', instance.status)
+        instance.save()
+        return instance
