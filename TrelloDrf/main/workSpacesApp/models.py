@@ -28,7 +28,7 @@ class WorkSpaces(models.Model):
     slug = models.SlugField(max_length=50)
 
     def __str__(self):
-        return f'WorkSpace: {self.title}'
+        return f'WorkSpace: {self.title}' + str(self.id)
 
     def save(self, *args, **kwargs):
         if self.title and self.id:

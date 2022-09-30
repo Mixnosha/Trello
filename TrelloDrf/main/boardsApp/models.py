@@ -9,9 +9,10 @@ class Boards(models.Model):
     description = models.TextField(blank=True, null=True)
     background = models.ImageField(upload_to='', default='', blank=True)
     status = models.ForeignKey('commentApp.Status', on_delete=models.CASCADE)
+    slug = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return f'Boards {self.title}'
+        return f'Boards {self.title}' + str(self.id)
 
 
 

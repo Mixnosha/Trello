@@ -33,3 +33,5 @@ class WorkspaceModelView(viewsets.ModelViewSet):
             return ViewAllWorkspacesSerializer
         if self.action == 'update':
             return UpdateWorkspacesSerializer
+
+
