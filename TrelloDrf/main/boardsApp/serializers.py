@@ -48,15 +48,17 @@ class BoardViewSerializers(serializers.ModelSerializer):
 
 
 class BoardUpdateSerializers(serializers.ModelSerializer):
+    """ Обновление Доски """
     slug = serializers.CharField(required=False)
     title = serializers.CharField(required=False)
-    status = StatusViewSerializer(required=True)
+    status = StatusViewSerializer(required=False)
 
     class Meta:
         model = Boards
         fields = ['status', 'title', 'slug', 'description']
 
     def update(self, instance, validated_data):
+        print(validated_data.get('status'))
         if (new_title := validated_data.get('title', instance.title)) != instance.title:
             instance.title = new_title
             instance.slug = get_slug_board(new_title)
