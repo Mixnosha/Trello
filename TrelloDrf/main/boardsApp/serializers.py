@@ -18,7 +18,7 @@ class ViewBoardsSerializer(serializers.ModelSerializer):
 class BoardCreateSerializer(serializers.ModelSerializer):
     """ Создание доски для рабочего пространства"""
     slug = serializers.CharField(required=False)
-    status = StatusViewSerializer(required=False)
+    # status = StatusViewSerializer(required=False)
 
     class Meta:
         model = Boards

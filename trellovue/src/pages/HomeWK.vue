@@ -4,9 +4,17 @@
     <right_-navbar></right_-navbar>
     <div class="main_home" @click="setProfileMenu(false)">
       <WkConst></WkConst>
-      <hr>
+      <div style="padding: 0px 0px 0px 120px">
+        <div style="display: flex; align-items: center">
+          <img src="@/static/images/profile.svg" alt="" style="width: 30px; margin-right: 10px"  />
+          <span style="font-weight: 700; font-size: 24px">Мои доски</span>
+        </div>
+        <div v-for="board in boards">
+          <span>{{board.title}}</span>
+        </div>
+      </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -24,6 +32,7 @@ export default {
   data() {
     return {
       workspaces: '',
+      boards: '',
     }
   },
   methods: {
@@ -45,6 +54,13 @@ export default {
       }).then(res => {
         this.workspaces = res.data
         console.log(res.data)
+      })
+      axios.get(`http://127.0.0.1:8000/api/v1/board/`, {
+        headers:{
+          'Authorization': `Token ${Cookies.get('token')}`
+        }
+      }).then(res => {
+        this.boards = res.data
       })
 
     }
