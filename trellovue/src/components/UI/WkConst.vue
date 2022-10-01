@@ -77,7 +77,7 @@ export default {
   },
   methods:{
     async readInfoWk() {
-      const res = await axios.put(`http://127.0.0.1:8000/api/v1/workspace/${this.id}/`, {
+      const res = await axios.put(`http://127.0.0.1:8000/api/v1/workspace/${77}/`, {
         title: this.wk.title,
         slug: this.wk.slug,
         web_site: this.wk.web_site,
@@ -101,6 +101,7 @@ export default {
       id: state => state.oneWk.id,
     }),
   },
+
 }
 </script>
 

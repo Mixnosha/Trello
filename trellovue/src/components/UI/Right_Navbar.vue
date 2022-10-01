@@ -23,6 +23,7 @@
             +
           </div>
         </div>
+        <!--==================== My workspaces ===============================-->
         <div v-for="wk in workspaces">
           <div class="workspace" :id="'workspace'+wk.id" @click="menuVisible(wk.id)">
             <div class="workspace__icon" style="display: flex; align-items: center; justify-content: center">
@@ -33,7 +34,7 @@
             </div>
           </div>
           <div :id='"open__menu"+wk.id' style="display: none">
-            <div class="open__menu-label">
+            <div class="open__menu-label"  @click="$router.push({name: 'home', params: {slug: wk.slug}})">
               <img src="@/static/images/square-board.svg" alt="" width="12px">
               <div class="open__lbl">Доски</div>
             </div>
