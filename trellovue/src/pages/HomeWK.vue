@@ -6,11 +6,16 @@
       <WkConst></WkConst>
       <div style="padding: 0px 0px 0px 120px">
         <div style="display: flex; align-items: center">
-          <img src="@/static/images/profile.svg" alt="" style="width: 30px; margin-right: 10px"  />
+          <img src="@/static/images/profile.svg" alt="" style="width: 30px; margin-right: 10px"/>
           <span style="font-weight: 700; font-size: 24px">Мои доски</span>
         </div>
-        <div v-for="board in boards">
-          <span>{{board.title}}</span>
+        <div style="display: flex; margin-top: 20px">
+          <div v-for="board in boards" class="board">
+              <span style="font-weight: 700; color: white; font-size: 16px">{{ board.title }}</span>
+          </div>
+          <div class="board" style="background-color: rgba(119,136,129,0.38); text-align: center">
+              <span style="display: inline-block; vertical-align: middle">Создать доску</span>
+          </div>
         </div>
       </div>
     </div>
@@ -53,14 +58,14 @@ export default {
         }
       }).then(res => {
         this.workspaces = res.data
-        console.log(res.data)
       })
-      axios.get(`http://127.0.0.1:8000/api/v1/board/`, {
-        headers:{
+      axios.get(`http://127.0.0.1:8000/api/v1/get_boards/${id}`, {
+        headers: {
           'Authorization': `Token ${Cookies.get('token')}`
         }
       }).then(res => {
         this.boards = res.data
+        console.log(res.data)
       })
 
     }
@@ -89,5 +94,23 @@ export default {
   margin-top: 45px;
   margin-left: 350px;
   padding: 40px 0px 0px 0px;
+}
+
+.board {
+  width: 200px;
+  height: 120px;
+  border-radius: 5px;
+  background-color: #ee7474;
+  margin-right: 10px;
+  padding: 10px;
+}
+.board:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.board:hover{
+  background: rgba(69, 79, 75, 0.51);
 }
 </style>
