@@ -29,16 +29,18 @@
 
     <div>
       <span class="text">Видимость</span><br>
-      <div class="select_boards" @click="">
-        Рабочее пространство</div>
+      <div class="select_boards" @click="open_select_boards">
+        {{ boards_select.current_choice_title }}</div>
       <div :style="{display: boards_select.display}" class="options_boards">
-        <div class="option_el">
+        <div class="option_el"
+             v-for="st in boards_data.status"
+             :id="st.id" @click="selected_el(st.id, st.title)">
           <div style="padding: 40px">
             <img src="@/static/images/settings_page/lock.svg" style="width: 24px" alt="">
           </div>
           <div>
-            <span style="font-size: 15px; font-weight: 700">Приватная</span><br>
-            <span style="color: #6c6c6c; font-size: 14px">Просматривать и изменять доску могут только добавленные на нее участники</span>
+            <span style="font-size: 15px; font-weight: 700">{{ st.title }}</span><br>
+            <span style="font-size: 14px">{{ st.description }}</span>
           </div>
         </div>
 
@@ -52,6 +54,7 @@
 <script>
 import tick from "@/static/images/HomeWk/CreateBoard/tick.svg"
 import axios from "axios";
+import Cookies from "js-cookie";
 export default {
   props: {},
   data() {
@@ -60,7 +63,9 @@ export default {
       bg_color: "#7490ee",
       data: '7490ee',
       boards_select:{
-        display: 'block',
+        display: 'none',
+        current_choice_id: '3',
+        current_choice_title: 'Выберите видимость вашей доски',
       },
       boards_data:{
         title: '',
@@ -91,14 +96,31 @@ export default {
       el.innerHTML = `<img src="${tick}" style="width: 10px">`
       this.bg_color = color
     },
+    selected_el(id, title){
+      let old_el = document.getElementById(this.boards_select.current_choice_id)
+      old_el.style.background = 'white'
+      old_el.children[1].style.color = 'black'
+      this.boards_select.current_choice_id = id
+      let el = document.getElementById(id)
+      el.style.background = '#15469d'
+      el.children[1].style.color = 'white'
+      this.boards_select.current_choice_title = title
+      this.boards_select.display = 'none'
+
+
+
+    },
     open_select_boards(){
-      axios.get('http://127.0.0.1:8000/api/v1/status/', {
-        headers:{
-          Authorisation: `Token ${Cookies.get('token')}`
-        }
-      }).then(res => {
-        this.boards_select.status = res.data
-      })
+      if (this.boards_data.status === '')
+      {
+        axios.get('http://127.0.0.1:8000/api/v1/status/', {
+          headers: {
+            Authorization:  `Token ${Cookies.get('token')}`
+          }
+        }).then(res => {
+          this.boards_data.status = res.data
+        })
+      }
       if (this.boards_select.display === 'none'){
         this.boards_select.display = 'block'
       }
@@ -200,6 +222,7 @@ input{
   display: flex;
   padding: 5px;
   transition: background-color 64ms;
+  cursor: pointer;
 }
 .option_el:hover{
   background: rgb(201, 206, 206);
