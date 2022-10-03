@@ -13,10 +13,13 @@
           <div v-for="board in boards" class="board">
               <span style="font-weight: 700; color: white; font-size: 16px">{{ board.title }}</span>
           </div>
-          <div class="board" style="background-color: rgba(119,136,129,0.38); text-align: center">
+          <div class="create_board" style="text-align: center">
               <span style="display: inline-block; vertical-align: middle">Создать доску</span>
           </div>
         </div>
+      </div>
+      <div class="main_form_add_board" v-if="create_board_form" id="main_form_add_board">
+        <CreateBoard></CreateBoard>
       </div>
     </div>
   </div>
@@ -30,14 +33,16 @@ import {mapActions, mapMutations, mapState} from "vuex";
 import axios from "axios";
 import Cookies from "js-cookie";
 import WkConst from "@/components/UI/WkConst";
+import CreateBoard from "@/components/HomeWK/CreateBoard";
 
 
 export default {
-  components: {MyButton, Navbar, Right_Navbar, WkConst},
+  components: {CreateBoard, MyButton, Navbar, Right_Navbar, WkConst},
   data() {
     return {
       workspaces: '',
       boards: '',
+      create_board_form: true,
     }
   },
   methods: {
@@ -65,7 +70,6 @@ export default {
         }
       }).then(res => {
         this.boards = res.data
-        console.log(res.data)
       })
 
     }
@@ -78,7 +82,7 @@ export default {
     }),
   },
   mounted() {
-
+    document.getElementById('main_form_add_board').style.height = `${window.innerHeight - 60}px`
     this.get_data(Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2)))
   }
 
@@ -104,13 +108,34 @@ export default {
   margin-right: 10px;
   padding: 10px;
 }
-.board:before {
+.create_board{
+  width: 200px;
+  height: 120px;
+  border-radius: 5px;
+  background-color: rgba(119,136,129,0.38);
+  margin-right: 10px;
+  padding: 10px;
+}
+.create_board:before {
   content: '';
   display: inline-block;
   height: 100%;
   vertical-align: middle;
 }
-.board:hover{
-  background: rgba(69, 79, 75, 0.51);
+.create_board:hover{
+  background-color: rgba(119, 136, 129, 0.66);
 }
+
+.main_form_add_board{
+  width: 395px;
+  background: white;
+  position: absolute;
+  border-radius: 4px;
+  left: 50%;
+  top: 1%;
+  box-shadow: -5px 6px 10px rgba(155, 153, 153, 0.99);
+  padding: 14px;
+  overflow: scroll;
+}
+
 </style>

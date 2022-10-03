@@ -36,17 +36,19 @@
              v-for="st in boards_data.status"
              :id="st.id" @click="selected_el(st.id, st.title)">
           <div style="padding: 40px">
-            <img src="@/static/images/settings_page/lock.svg" style="width: 24px" alt="">
+            <img ref="img" src="@/static/images/HomeWk/CreateBoard/lock.svg" alt="" style="width: 24px">
           </div>
           <div>
-            <span style="font-size: 15px; font-weight: 700">{{ st.title }}</span><br>
+            <span  style="font-size: 15px; font-weight: 700">{{ st.title }}</span><br>
             <span style="font-size: 14px">{{ st.description }}</span>
           </div>
         </div>
-
-
       </div>
     </div>
+    <div style="padding-top: 10px; color: #131313">
+      В рабочее пространство можно добавить еще несколько досок — 10 досках. В бесплатной версии в рабочих пространствах может быть до 10 открытых досок. Чтобы добавить больше, оформите подписку.
+    </div>
+    <button class="btn" :class="{'btn-active':boards_data.title !== ''}">Создать</button>
 
   </div>
 </template>
@@ -102,7 +104,7 @@ export default {
       old_el.children[1].style.color = 'black'
       this.boards_select.current_choice_id = id
       let el = document.getElementById(id)
-      el.style.background = '#15469d'
+      el.style.background = '#031d4d'
       el.children[1].style.color = 'white'
       this.boards_select.current_choice_title = title
       this.boards_select.display = 'none'
@@ -226,5 +228,23 @@ input{
 }
 .option_el:hover{
   background: rgb(201, 206, 206);
+}
+
+.btn{
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  color: #6c6c6c;
+  height: 40px;
+}
+.btn-active{
+  width: 100%;
+  outline: none;
+  border: none;
+  background: #0c50c9;
+  border-radius: 4px;
+  color: #f1efef;
+  height: 40px;
 }
 </style>
