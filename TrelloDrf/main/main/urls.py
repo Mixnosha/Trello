@@ -8,8 +8,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('authUser.urls')),
     path('api/v1/', include('workSpacesApp.urls')),
-    path('api/v1/', include('commentApp.urls')),
     path('api/v1/', include('boardsApp.urls')),
+    path('api/v1/', include('status.urls')),
 
 ]
 

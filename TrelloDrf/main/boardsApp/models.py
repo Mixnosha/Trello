@@ -8,7 +8,7 @@ class Boards(models.Model):
     join_link = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     background = models.ImageField(upload_to='', default='', blank=True)
-    status = models.ForeignKey('commentApp.Status', on_delete=models.CASCADE)
+    status = models.ForeignKey('status.StatusBoards', on_delete=models.CASCADE)
     slug = models.CharField(max_length=100, unique=True)
 
     def __str__(self):

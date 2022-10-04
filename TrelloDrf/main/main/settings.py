@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'userApp',
     'boardsApp',
     'workSpacesApp',
+    'status',
 ]
 
 MIDDLEWARE = [

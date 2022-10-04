@@ -1,8 +1,7 @@
 from rest_framework import serializers
-
 from boardsApp.serializers import ViewBoardsSerializer
-from commentApp.models import Status
-from commentApp.serializers import StatusViewSerializer
+from status.models import StatusWK
+from status.serializers import StatusViewSerializer
 from userApp.models import CustomUser
 from userApp.serializers import CustomUserViewAllSerializer
 from workSpacesApp.models import WorkSpaces
@@ -86,7 +85,7 @@ class UpdateWorkspacesSerializer(serializers.ModelSerializer):
         instance.web_site = validated_data.get('web_site', instance.web_site)
         instance.type = validated_data.get('type', instance.type)
         if 'status' in validated_data:
-            instance.status = Status.objects.get(title=validated_data['status']['title'])
+            instance.status = StatusWK.objects.get(title=validated_data['status']['title'])
         instance.slug = validated_data.get('slug', instance.slug)
         instance.save()
         return instance
