@@ -25,6 +25,7 @@ class BoardsModelView(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == 'list':
             return Boards.objects.filter(workspaces_boards=self.kwargs['id'])
+            
         else:
             return Boards.objects.filter(admin_users__user__username=self.request.user)
 
@@ -32,7 +33,6 @@ class BoardsModelView(viewsets.ModelViewSet):
         if self.action == 'list':
             return BoardViewSerializers
         if self.action == 'create':
-            print(self.request.data['wk_id'])
             return BoardCreateSerializer
         if self.action == 'retrieve':
             return ViewBoardsSerializer

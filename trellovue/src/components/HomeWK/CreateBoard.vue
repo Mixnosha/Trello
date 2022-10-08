@@ -101,7 +101,7 @@ export default {
           'Authorization': `Token ${Cookies.get('token')}`
         }
       }).then(res => {
-        this.$router.reload()
+        this.$router.go()
       })
     },
     setColor(event, color){
