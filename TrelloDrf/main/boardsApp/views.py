@@ -32,6 +32,7 @@ class BoardsModelView(viewsets.ModelViewSet):
         if self.action == 'list':
             return BoardViewSerializers
         if self.action == 'create':
+            print(self.request.data['wk_id'])
             return BoardCreateSerializer
         if self.action == 'retrieve':
             return ViewBoardsSerializer

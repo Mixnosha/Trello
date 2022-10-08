@@ -13,13 +13,13 @@
           <div v-for="board in boards" class="board">
               <span style="font-weight: 700; color: white; font-size: 16px">{{ board.title }}</span>
           </div>
-          <div class="create_board" style="text-align: center">
+          <div class="create_board" style="text-align: center" @click="create_board_form==='none'?create_board_form='block':create_board_form='none'">
               <span style="display: inline-block; vertical-align: middle">Создать доску</span>
           </div>
         </div>
       </div>
-      <div class="main_form_add_board" v-if="create_board_form" id="main_form_add_board">
-        <CreateBoard></CreateBoard>
+      <div class="main_form_add_board" :style="{display: create_board_form}" id="main_form_add_board">
+          <CreateBoard :id="this.id"></CreateBoard>
       </div>
     </div>
   </div>
@@ -40,9 +40,11 @@ export default {
   components: {CreateBoard, MyButton, Navbar, Right_Navbar, WkConst},
   data() {
     return {
+      id: 1,
       workspaces: '',
       boards: '',
-      create_board_form: true,
+      create_board_form: 'none',
+      width: 0,
     }
   },
   methods: {
@@ -53,10 +55,10 @@ export default {
     ...mapActions({
       loadWk: 'oneWk/loadWk'
     }),
-
     get_data(id) {
       this.setId(id)
       this.loadWk()
+      console.log(id);
       axios.get(`http://127.0.0.1:8000/api/v1/workspace/${id}`, {
         headers: {
           'Authorization': `Token ${Cookies.get('token')}`
@@ -83,7 +85,10 @@ export default {
   },
   mounted() {
     document.getElementById('main_form_add_board').style.height = `${window.innerHeight - 60}px`
-    this.get_data(Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2)))
+    this.id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 1))
+    console.log(this.id)
+    console.log('dsdfsfdsfdsfskfksfksdkf');
+    this.get_data(this.id)
   }
 
 
@@ -91,6 +96,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 .main_home {
   width: 100%;
   height: 800px;

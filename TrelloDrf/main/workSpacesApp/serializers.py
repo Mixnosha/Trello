@@ -85,6 +85,7 @@ class UpdateWorkspacesSerializer(serializers.ModelSerializer):
         instance.web_site = validated_data.get('web_site', instance.web_site)
         instance.type = validated_data.get('type', instance.type)
         if 'status' in validated_data:
+            print('sdfsdfsdfgsdfygs')
             instance.status = StatusWK.objects.get(title=validated_data['status']['title'])
         instance.slug = validated_data.get('slug', instance.slug)
         instance.save()

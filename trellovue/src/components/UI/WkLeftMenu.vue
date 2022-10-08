@@ -66,7 +66,7 @@ export default {
     }),
   },
   mounted() {
-    const id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 2))
+    const id = Number(this.$route.params.slug.substring(this.$route.params.slug.length - 1))
     this.setWkId(id)
     this.loadWk()
   }

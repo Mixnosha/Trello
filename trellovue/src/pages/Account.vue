@@ -127,12 +127,13 @@ export default {
       setWkStatus: 'oneWk/setWkStatus'
     }),
     getStatus(){
-      axios.get('http://127.0.0.1:8000/api/v1/status/', {
+      axios.get('http://127.0.0.1:8000/api/v1/status/wk', {
         headers: {
           Authorization:  `Token ${Cookies.get('token')}`
         }
       }).then(res => {
         this.all_status = res.data
+        console.log(res.data);
       })
     },
     clickOut(e){

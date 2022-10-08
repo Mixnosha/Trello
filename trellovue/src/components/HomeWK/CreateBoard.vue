@@ -48,9 +48,10 @@
     <div style="padding-top: 10px; color: #131313">
       В рабочее пространство можно добавить еще несколько досок — 10 досках. В бесплатной версии в рабочих пространствах может быть до 10 открытых досок. Чтобы добавить больше, оформите подписку.
     </div>
-    <button class="btn" :class="{'btn-active':boards_data.title !== ''}">Создать</button>
+    <button @click="createBoard" class="btn" :class="{'btn-active':boards_data.title !== ''}">Создать</button>
 
   </div>
+
 </template>
 
 <script>
@@ -58,7 +59,9 @@ import tick from "@/static/images/HomeWk/CreateBoard/tick.svg"
 import axios from "axios";
 import Cookies from "js-cookie";
 export default {
-  props: {},
+  props: {
+    id: String,
+  },
   data() {
     return {
       tick: tick,
@@ -88,6 +91,19 @@ export default {
     }
   },
   methods:{
+    createBoard(){
+      axios.post('http://127.0.0.1:8000/api/v1/board/', {
+        title: this.boards_data.title,
+        status: this.boards_select.current_choice_id,
+        wk_id: this.id
+      }, {
+        headers: {
+          'Authorization': `Token ${Cookies.get('token')}`
+        }
+      }).then(res => {
+        this.$router.reload()
+      })
+    },
     setColor(event, color){
       let el = document.getElementById(event.target.id)
       let del_el = document.getElementById(this.data)
@@ -115,7 +131,7 @@ export default {
     open_select_boards(){
       if (this.boards_data.status === '')
       {
-        axios.get('http://127.0.0.1:8000/api/v1/status/', {
+        axios.get('http://127.0.0.1:8000/api/v1/status/br', {
           headers: {
             Authorization:  `Token ${Cookies.get('token')}`
           }

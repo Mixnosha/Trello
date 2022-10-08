@@ -29,7 +29,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
         board.admin_users.add(adm_user.id)
         board.title = board.title
         board.save()
-        wk = WorkSpaces.objects.get(id=self.context['request'].POST['wk_id'])
+        wk = WorkSpaces.objects.get(id=self.context['request'].data['wk_id'])
         wk.boards.add(board.id)
         wk.save()
         return board

@@ -8,9 +8,9 @@ class Status(models.Model):
         return str(self.id) + ' ' + self.title
 
 class StatusBoards(Status):
-    icon = models.FileField(upload_to=f'data/statusBoards/icons')
+    icon = models.FileField(upload_to=f'data/statusBoards/icons', blank=True, null=True)
 
 class StatusWK(Status):
-    icon = models.FileField(upload_to=f'data/statusBoards/icons')
+    icon = models.FileField(upload_to=f'data/statusBoards/icons', blank=True, null=True)
 
 
