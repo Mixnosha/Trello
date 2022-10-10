@@ -16,7 +16,7 @@
         <div>
           <div v-for="board in boards">
             <div style="display: flex; margin-top: 20px">
-              <div v-for="b in board" class="board">
+              <div v-for="b in board" class="board" :style="{backgroundColor: b.background}">
                 <span style="font-weight: 700; color: white; font-size: 16px">{{
                   b.title
                 }}</span>
@@ -114,6 +114,7 @@ export default {
             }
             counter += 1;
           }
+          console.log(data)
           this.boards = data;
         });
     },

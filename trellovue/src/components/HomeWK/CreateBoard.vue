@@ -84,7 +84,7 @@ export default {
         "#fa4251",
         "#8019b4",
         "#d617f3",
-        "#afee74",
+        "#000000",
         "#27b8cb",
 
       ],
@@ -95,7 +95,8 @@ export default {
       axios.post('http://127.0.0.1:8000/api/v1/board/', {
         title: this.boards_data.title,
         status: this.boards_select.current_choice_id,
-        wk_id: this.id
+        wk_id: this.id,
+        background: this.bg_color
       }, {
         headers: {
           'Authorization': `Token ${Cookies.get('token')}`
