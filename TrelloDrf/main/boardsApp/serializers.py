@@ -18,7 +18,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Boards
-        fields = ['title', 'status', 'slug']
+        fields = ['title', 'status', 'slug', 'background']
 
     def create(self, validated_data):
         adm_user = CustomUser.objects.get(user__username=self.context['request'].user)

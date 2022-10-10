@@ -7,7 +7,7 @@ class Boards(models.Model):
     column = models.ManyToManyField(to='columnApp.Column', blank=True, related_name='boards_column')
     join_link = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    background = models.ImageField(upload_to='', default='', blank=True)
+    background = models.CharField(max_length=20, blank=True, null=True, default="#f67272")
     status = models.ForeignKey('status.StatusBoards', on_delete=models.CASCADE)
     slug = models.CharField(max_length=100, unique=True)
 
