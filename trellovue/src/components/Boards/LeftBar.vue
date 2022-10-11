@@ -20,11 +20,13 @@
           <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/Boards/LeftBar/square-board.svg"
                                                                   style="width: 16px; border-radius: 2px" alt=""></div>
           <div class="el__lbl" style="font-size: 16px">
-            Доски</div>
+            Доски
+          </div>
         </div>
         <div class="el" style="">
           <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/Boards/LeftBar/networking.svg"
-                                                                  style="width: 16px; border-radius: 2px; fill: white" alt=""></div>
+                                                                  style="width: 16px; border-radius: 2px; fill: white"
+                                                                  alt=""></div>
           <div class="el__lbl" style="font-size: 16px">Участники</div>
           <div class="add__user"
                style="display: flex; justify-content: center; width: 24px; color: #e1dada; border-radius: 4px; font-size: 20px; margin-left: 50%">
@@ -34,7 +36,9 @@
         <div class="el" style="">
           <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/Boards/LeftBar/settings.svg"
                                                                   style="width: 16px; border-radius: 2px" alt=""></div>
-          <div class="el__lbl" style="font-size: 16px" @click="this.$router.push({ name: 'account', params: { slug: wk.slug }})">Настройки</div>
+          <div class="el__lbl" style="font-size: 16px"
+               @click="this.$router.push({ name: 'account', params: { slug: wk.slug }})">Настройки
+          </div>
         </div>
       </div>
 
@@ -42,10 +46,13 @@
 
       <div class="my_boards" style="padding-bottom:10px;padding-top: 18px;">
         <div class="boards__title" style="display: flex; align-items: center">
-          <div class="some__title" style="font-weight: 700; font-size: 14px; padding-left: 16px; padding-right: 12px; color:#e1dada">Мои доски</div>
+          <div class="some__title"
+               style="font-weight: 700; font-size: 14px; padding-left: 16px; padding-right: 12px; color:#e1dada">Мои
+            доски
+          </div>
           <div class="add__user"
                style="cursor:pointer; display: flex; justify-content: center; width: 24px; color: #e1dada; border-radius: 4px; font-size: 20px; margin-left: 54%"
-          @click="display_createBr==='none'?display_createBr='block':display_createBr='none'"
+               @click="display_createBr==='none'?display_createBr='block':display_createBr='none'"
           >
             +
           </div>
@@ -54,9 +61,9 @@
       </div>
 
       <div class="all_boards">
-        <div class="one_board" v-for="b in boards">
-            <div class="bg_board" :style="{backgroundColor: b.background}"></div>
-            <span style="padding-left: 10px; color: white">{{ b.title }}</span>
+        <div class="one_board" v-for="b in boards" @click="go_router(b.slug, b.title)">
+          <div class="bg_board" :style="{backgroundColor: b.background}"></div>
+          <span style="padding-left: 10px; color: white">{{ b.title }}</span>
         </div>
       </div>
 
@@ -76,27 +83,31 @@
 import CreateBoard from "@/components/HomeWK/CreateBoard";
 import axios from "axios";
 import Cookies from "js-cookie";
+
 export default {
   components: {CreateBoard},
   props: {
     wk_id: Number,
   },
-  data(){
-    return{
+  data() {
+    return {
       display_createBr: 'none',
       boards: null,
     }
   },
   methods: {
-      get_boards(id){
-        axios.get(`http://127.0.0.1:8000/api/v1/get_boards/${id}`, {
-          headers: {
-            'Authorization': `Token ${Cookies.get('token')}`
-          }
-        }).then(res => {
-          this.boards = res.data
-        })
-      }
+    go_router(slug, title) {
+      this.$router.push({name: 'board', params: {slug: slug, title: title}})
+    },
+    get_boards(id) {
+      axios.get(`http://127.0.0.1:8000/api/v1/get_boards/${id}`, {
+        headers: {
+          'Authorization': `Token ${Cookies.get('token')}`
+        }
+      }).then(res => {
+        this.boards = res.data
+      })
+    }
   },
   mounted() {
     this.get_boards(this.wk_id)
@@ -121,7 +132,8 @@ export default {
   color: white;
   font-weight: 700;
 }
-.header{
+
+.header {
   padding: 20px 20px 5px 20px;
 }
 
@@ -146,7 +158,7 @@ export default {
 
 }
 
-.el__lbl{
+.el__lbl {
   color: #f5f1f1;
 }
 
@@ -171,7 +183,7 @@ export default {
   overflow: scroll;
 }
 
-.one_board{
+.one_board {
   display: flex;
   width: 100%;
   height: 40px;
@@ -179,13 +191,15 @@ export default {
   transition: background-color 76ms;
 }
 
-.one_board:hover{
+.one_board:hover {
   background-color: rgba(255, 255, 255, 0.18);
 }
-.all_boards{
+
+.all_boards {
 
 }
-.bg_board{
+
+.bg_board {
   align-items: center;
   width: 36px;
   height: 24px;

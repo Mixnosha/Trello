@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Boards(models.Model):
     users = models.ManyToManyField(to='userApp.CustomUser', related_name='boards_users', blank=True)
     admin_users = models.ManyToManyField(to='userApp.CustomUser', related_name='boards_adm')

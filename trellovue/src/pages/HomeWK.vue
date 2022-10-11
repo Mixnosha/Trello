@@ -16,7 +16,7 @@
         <div>
           <div v-for="board in boards">
             <div style="display: flex; margin-top: 20px">
-              <div v-for="b in board" class="board" :style="{backgroundColor: b.background}">
+              <div v-for="b in board" @click="go_router(b.slug, b.title)" class="board" :style="{backgroundColor: b.background}">
                 <span style="font-weight: 700; color: white; font-size: 16px">{{
                   b.title
                 }}</span>
@@ -78,6 +78,10 @@ export default {
     ...mapActions({
       loadWk: "oneWk/loadWk",
     }),
+
+    go_router(slug, title){
+      this.$router.push({ name: 'board', params: { slug: slug, title: title } })
+    },
     get_data(id) {
       this.setId(id);
       this.loadWk();

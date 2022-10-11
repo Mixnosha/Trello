@@ -33,7 +33,7 @@ const routes = [
     component: HomeWK,
   },
   {
-    path: '/b/:slug/:slug',
+    path: '/b/:slug/:title',
     name: 'board',
     component: Boards
   }

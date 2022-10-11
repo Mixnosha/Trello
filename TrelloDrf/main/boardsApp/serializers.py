@@ -6,10 +6,11 @@ from workSpacesApp.models import WorkSpaces
 from boardsApp.models import Boards
 from userApp.models import CustomUser
 
-class ViewBoardsSerializer(serializers.ModelSerializer):
+
+class ViewOneBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Boards
-        fields = ['id', 'title', 'background']
+        fields = ['id', 'title', 'background', 'column', 'join_link', 'description', 'status', 'slug']
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
@@ -40,7 +41,7 @@ class BoardViewSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Boards
-        fields = ['id', 'title', 'background']
+        fields = ['id', 'title', 'background', 'slug']
 
 
 class BoardUpdateSerializers(serializers.ModelSerializer):

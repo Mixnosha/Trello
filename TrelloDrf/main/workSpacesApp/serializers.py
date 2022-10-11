@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from boardsApp.serializers import ViewBoardsSerializer
+from boardsApp.serializers import BoardViewSerializers
 from status.models import StatusWK
 from status.serializers import StatusViewSerializer
 from userApp.models import CustomUser
@@ -26,7 +26,7 @@ class ViewAllWorkspacesSerializer(serializers.ModelSerializer):
 
 class ViewOneWorkspacesSerializer(serializers.ModelSerializer):
     """Просмотр одного рабочего пространства"""
-    boards = ViewBoardsSerializer(many=True)
+    boards = BoardViewSerializers(many=True)
     status = StatusViewSerializer()
     type = serializers.CharField(source='get_type_display')
     admin_users = CustomUserViewAllSerializer(many=True)

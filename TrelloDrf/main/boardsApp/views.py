@@ -1,12 +1,15 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
+from rest_framework.response import Response
 
 from boardsApp.models import Boards
 from boardsApp.serializers import BoardCreateSerializer, BoardViewSerializers, BoardUpdateSerializers, \
-    ViewBoardsSerializer
+     ViewOneBoardSerializer
+from boardsApp.service import get_board_to_slug_funck
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(
@@ -35,7 +38,19 @@ class BoardsModelView(viewsets.ModelViewSet):
         if self.action == 'create':
             return BoardCreateSerializer
         if self.action == 'retrieve':
-            return ViewBoardsSerializer
+            return ViewOneBoardSerializer
         if self.action == 'update':
             return BoardUpdateSerializers
+
+
+@api_view(['GET'])
+def get_board_to_slug(request, slug):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        board, wk = get_board_to_slug_funck(slug)
+        data = ViewOneBoardSerializer(board).data
+        data['wk_id'] = wk.id
+        return Response(data)
 
