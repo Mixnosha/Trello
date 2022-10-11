@@ -1,14 +1,14 @@
 <template>
-  <div style="background: #f16c6c; width: 100vw; height: 100vh;">
+  <div style="background: #f16c6c; width: 100vw; height: 100vh;"  :style="{backgroundColor: select_board.background}">
     <div class="main">
 
       <!-- ================ BLOCK HEADER  ================ -->
       <div class="header">
         <div style="display: flex; align-items: center">
           <div class="icons">
-            <img src="@/static/images/wks.svg" alt="" style="width: 40px; border-radius: 6px">
+            <img :src="wk.logo" alt="" style="width: 40px; border-radius: 6px">
           </div>
-          <div class="title">Title</div>
+          <div class="title"> {{ wk.title }} </div>
         </div>
       </div>
       <hr style="color: rgba(255,255,255,0.93)">
@@ -86,31 +86,47 @@ import Cookies from "js-cookie";
 
 export default {
   components: {CreateBoard},
-  props: {
-    wk_id: Number,
-  },
   data() {
     return {
       display_createBr: 'none',
       boards: null,
+      wk_id: null,
+      wk: 'undefined',
+      select_board: 'null',
     }
   },
   methods: {
     go_router(slug, title) {
       this.$router.push({name: 'board', params: {slug: slug, title: title}})
     },
-    get_boards(id) {
-      axios.get(`http://127.0.0.1:8000/api/v1/get_boards/${id}`, {
+    async get_board(){
+      const slug = this.$route.params.slug
+      const res = await axios.get(`http://127.0.0.1:8000/api/v1/get_board_to_slug/${slug}`)
+      this.wk_id = res.data.wk_id
+      this.select_board = res.data
+      console.log(this.select_board)
+    },
+    async get_wk(){
+      const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${this.wk_id}`, {
         headers: {
           'Authorization': `Token ${Cookies.get('token')}`
         }
-      }).then(res => {
-        this.boards = res.data
+
       })
+      this.wk = res.data
+    },
+    async get_boards(id) {
+      const res = await axios.get(`http://127.0.0.1:8000/api/v1/get_boards/${id}`, {
+        headers: {
+          'Authorization': `Token ${Cookies.get('token')}`
+        }})
+      this.boards = res.data
     }
   },
-  mounted() {
-    this.get_boards(this.wk_id)
+  async mounted() {
+    await this.get_board()
+    await this.get_boards(this.wk_id)
+    await this.get_wk()
   }
 }
 </script>
