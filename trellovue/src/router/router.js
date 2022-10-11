@@ -4,6 +4,7 @@ import Main from "@/pages/Main";
 import WkPage from "@/pages/WkPage";
 import Account from "@/pages/Account";
 import HomeWK from "@/pages/HomeWK";
+import Boards from "@/pages/Boards";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/w/:slug/home',
     name: 'home',
     component: HomeWK,
+  },
+  {
+    path: '/b/:slug/:slug',
+    name: 'board',
+    component: Boards
   }
 ]
 

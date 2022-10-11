@@ -1,6 +1,6 @@
 <template>
   <div style="position: fixed; width: 100%; z-index: 1;">
-  <header>
+  <header :style="{background: main_color}">
     <div class="header__logo" @click="this.$router.push({name: 'main'})">Trello</div>
     <nav class="header__nav">
     <div @click="wk__visible===false?setWk__visible(true):setWk__visible(false)" class="nav__btn">Рабочие пространства<img src="@/static/images/arrow.svg" class="nav__btn-svg"></div>
@@ -68,6 +68,14 @@ import Cookies from "js-cookie";
 
 
 export default {
+  props: {
+    main_color:
+        {
+          type: String,
+          required: false,
+          default: "#026AA7"
+        }
+  },
   data() {
     return {
 
@@ -222,9 +230,9 @@ export default {
 
 <style scoped>
 header {
+  border: 1px solid rgba(255, 255, 255, 0.3);
   width: 100%;
   height: 44px;
-  background: #026AA7;
   color: white;
   display: flex;
   align-items: center;
@@ -244,7 +252,7 @@ header {
   width: auto;
   height: 100%;
   padding: 5px 10px;
-  background: rgba(23, 43, 77, 0.45);
+  background: rgba(116, 122, 133, 0.45);
   transition: background-color 32ms;
   border-radius: 4px;
 }

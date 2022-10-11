@@ -12,10 +12,11 @@
       </div>
     </div>
     <div class="el__wk" style="padding-top: 14px">
-      <div class="el" style="">
+      <div class="el" style="" @click="this.$router.push({ name: 'home', params: { slug: wk.slug }})">
         <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/square-board.svg"
                                                                 style="width: 14px; border-radius: 2px" alt=""></div>
-        <div class="el__lbl" style="font-size: 14px" @click="this.$router.push({ name: 'pageWk', params: { slug: wk.slug }})">Доски</div>
+        <div class="el__lbl" style="font-size: 14px">
+          Доски</div>
       </div>
       <div class="el" style="">
         <div class="el__icon" style="padding-right: 12px;"><img src="@/static/images/networking.svg"
