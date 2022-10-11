@@ -92,7 +92,7 @@ export default {
       boards: null,
       wk_id: null,
       wk: 'undefined',
-      select_board: 'null',
+      select_board: '',
     }
   },
   methods: {
@@ -104,7 +104,7 @@ export default {
       const res = await axios.get(`http://127.0.0.1:8000/api/v1/get_board_to_slug/${slug}`)
       this.wk_id = res.data.wk_id
       this.select_board = res.data
-      console.log(this.select_board)
+
     },
     async get_wk(){
       const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${this.wk_id}`, {
