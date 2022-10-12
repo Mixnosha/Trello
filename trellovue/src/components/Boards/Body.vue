@@ -9,6 +9,8 @@
           <div class="title">Maksim</div>
           <div class="settings">...</div>
         </div>
+
+
         <div class="column__task">
           <div class="task__title">Maksim</div>
           <div class="task__edit">
@@ -35,6 +37,16 @@
         </div>
       </div>
 
+
+      <div class="add_column">
+        <div class="add_column__icon">
+          <img src="@/static/images/Boards/Body/plusWhite.svg" class="pen_icon">
+
+        </div>
+        <div class="add_clumn_text">
+          Добавить еще одну колонку
+        </div>
+      </div>
 
       </div>
 
@@ -68,6 +80,8 @@ export default {
 
 .some_body{
   padding: 20px;
+  display: flex;
+
 }
 
 /* ========== COLUMN ========= */
@@ -78,6 +92,8 @@ export default {
   background-color: #f1ecec;
   border-radius: 4px;
   padding: 10px;
+  margin-right: 10px;
+
 }
 
 /* ========== COLUMN HEADER ========= */
@@ -126,7 +142,15 @@ export default {
   background-color: white;
   border-radius: 4px;
   box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+  transition: background-color 150ms;
+
 }
+
+.column__task:hover{
+  background-color: #efeaea;
+
+}
+
 .task__title{
   padding-right: 180px;
 }
@@ -169,5 +193,34 @@ export default {
 .add_task__icon{
   padding-right: 10px;
 }
+
+
+/* ========== ADD COLUMN ========= */
+
+
+.add_column{
+  display: flex;
+  padding: 10px 20px 10px 20px;
+  height: 50px;
+  align-items: center;
+  border-radius: 4px;
+  background-color: rgba(241, 237, 237, 0.27);
+  transition: background-color 150ms;
+}
+
+.add_column:hover{
+  background-color: rgba(241, 237, 237, 0.45);
+
+}
+
+.add_clumn_text{
+  color: white;
+}
+
+
+.add_column__icon{
+  padding-right: 10px;
+}
+
 
 </style>
