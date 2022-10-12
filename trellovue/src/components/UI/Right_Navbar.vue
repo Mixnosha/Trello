@@ -34,7 +34,8 @@
             </div>
           </div>
           <div :id='"open__menu"+wk.id' style="display: none">
-            <div class="open__menu-label"  @click="$router.push({name: 'home', params: {slug: wk.slug}})">
+            <div class="open__menu-label"
+                 @click="$router.push({name: 'home', params: {slug: wk.slug}}).then(() => { this.$router.go() })">
               <img src="@/static/images/square-board.svg" alt="" width="12px">
               <div class="open__lbl">Доски</div>
             </div>

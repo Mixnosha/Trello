@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #f16c6c; width: 100vw; height: 100vh;"  :style="{backgroundColor: select_board.background}">
+  <div style="background: #f16c6c; width: 100vw; height: 100vh; position: absolute; z-index: -99;"  :style="{backgroundColor: select_board.background}">
     <div class="main">
 
       <!-- ================ BLOCK HEADER  ================ -->
@@ -97,7 +97,8 @@ export default {
   },
   methods: {
     go_router(slug, title) {
-      this.$router.push({name: 'board', params: {slug: slug, title: title}})
+      this.$router.push({name: 'board', params: {slug: slug, title: title}}).then(() => { this.$router.go() })
+
     },
     async get_board(){
       const slug = this.$route.params.slug
