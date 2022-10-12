@@ -43,7 +43,7 @@
         :style="{ display: create_board_form }"
         id="main_form_add_board"
       >
-        <CreateBoard :id="this.id"></CreateBoard>
+        <CreateBoard :id="Number(this.id)"></CreateBoard>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@ export default {
   components: { CreateBoard, MyButton, Navbar, Right_Navbar, WkConst },
   data() {
     return {
-      id: 1,
+      id: null,
       workspaces: "",
       boards: "",
       create_board_form: "none",
@@ -85,7 +85,6 @@ export default {
     get_data(id) {
       this.setId(id);
       this.loadWk();
-      console.log(id);
       axios
         .get(`http://127.0.0.1:8000/api/v1/workspace/${id}`, {
           headers: {
@@ -118,7 +117,6 @@ export default {
             }
             counter += 1;
           }
-          console.log(data)
           this.boards = data;
         });
     },
@@ -137,7 +135,6 @@ export default {
     this.id = Number(
       this.$route.params.slug.substring(this.$route.params.slug.length - 1)
     );
-    console.log(this.id);
     this.get_data(this.id);
   },
 };

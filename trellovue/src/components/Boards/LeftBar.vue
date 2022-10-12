@@ -74,7 +74,7 @@
   <!-- ================ BLOCK CREATE BOARD ================ -->
 
   <div class="main_form_add_board" :style="{display: display_createBr}">
-    <CreateBoard id="5"></CreateBoard>
+    <CreateBoard :id="this.wk_id"></CreateBoard>
   </div>
 
 </template>

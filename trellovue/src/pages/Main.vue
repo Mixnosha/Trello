@@ -11,7 +11,7 @@
 <script>
 import MyButton from "@/components/UI/MyButton";
 import {mapMutations, mapState} from "vuex";
-import Navbar from "@/components/UI/Navbar";
+import Navbar from "@/components/UI/Navbar"
 import Right_Navbar from "@/components/UI/Right_Navbar";
 
 export default {

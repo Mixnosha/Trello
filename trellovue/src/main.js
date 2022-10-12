@@ -17,7 +17,6 @@ components.forEach(componentHomeWk => {
     app.component(componentHomeWk.name, componentHomeWk)
 })
 
-
 directives.forEach(directive => {
     app.directive(directive.name, directive)
 })

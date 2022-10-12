@@ -60,7 +60,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 export default {
   props: {
-    id: String,
+    id: Number,
   },
   data() {
     return {
@@ -92,6 +92,7 @@ export default {
   },
   methods:{
     createBoard(){
+      console.log(this.id)
       axios.post('http://127.0.0.1:8000/api/v1/board/', {
         title: this.boards_data.title,
         status: this.boards_select.current_choice_id,
