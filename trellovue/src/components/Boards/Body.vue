@@ -26,27 +26,74 @@
       <hr class="line">
 
       <div class="navbar__item">
-        <img src="" alt="">
-        <span>Для рабочего пространства</span>
+        <img class="icon" src="@/static/images/Boards/Body/profile.svg"  alt="">
+        <span style="margin-left: 5px">Для рабочего пространства</span>
       </div>
 
+      <hr class="line">
+
+      <div class="navbar__item" >
+        <img class="icon" src="@/static/images/Boards/Body/filter.svg"  alt="">
+        <span style="margin-left: 5px">Фильтр</span>
+      </div>
+
+      <hr class="line">
+
+      <div class="profile-icon">
+        <span>{{ username }}</span>
+      </div>
+
+      <hr class="line">
+
+      <div class="navbar__item" style="padding: 5px 8px 7px 6px">
+        <span style="margin-left: 5px">. . . </span>
+      </div>
+
+
+
+    <hr class="line">
+
+    <div class="navbar__item" style="background-color: white">
+      <img class="icon" src="@/static/images/Boards/Body/add-user.svg"  alt="">
+      <span style="margin-left: 5px; color: black"> Поделиться</span>
+    </div>
+
     </navbar>
+
+
+
 
   </div>
 </template>
 
 <script>
-
+import Cookies from "js-cookie";
 export default {
   data() {
     return {
+      username: null,
     }
 
+  },
+  methods:{
+    get_username(){
+      this.username = Cookies.get('username')
+      this.username = this.username.substring(0,1)
+  }
+  },
+  mounted() {
+    this.get_username()
   }
 }
 </script>
 
 <style scoped>
+
+.dflex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .main {
   padding-left: 300px;
   padding-top: 45px;
@@ -57,6 +104,7 @@ export default {
   margin:  auto;
   fill: white;
   z-index: 20;
+  cursor: pointer;
 }
 
 
@@ -72,10 +120,11 @@ navbar{
   height: 100%;
   border-radius: 4px;
   transition: background-color 150ms;
+  cursor: pointer;
 }
 
 .navbar__title:hover{
-  background-color: rgba(241, 237, 237, 0.45);
+  background-color: rgba(241, 237, 237, 0.27);
 }
 
 .title{
@@ -94,7 +143,8 @@ navbar{
   width: 36px;
   border-radius: 4px;
   transition: fill, width 150ms;
-  background-color: rgba(241, 237, 237, 0.45);
+  background-color: rgba(241, 237, 237, 0.27);
+  cursor: pointer;
 }
 
 .navbar__icon:hover .icon{
@@ -111,9 +161,37 @@ navbar{
 }
 
 .navbar__item{
-  padding: 8px;
-  background-color: rgba(241, 237, 237, 0.45);
+  margin-right: 5px;
+  padding: 6.5px;
+  background-color: rgba(241, 237, 237, 0.27);
   border-radius: 4px;
   color: white;
+  transition: background-color 150ms;
+  cursor: pointer;
+}
+
+.navbar__item:hover{
+  background-color: rgba(241, 237, 237, 0.55);
+}
+
+
+.profile-icon{
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  border-radius: 100%;
+  margin-right: 5px;
+  background-color: #0c50c9;
+  transition: background-color 150ms;
+  cursor: pointer ;
+}
+
+.profile-icon:hover{
+  background-color: #3574e3;
+
 }
 </style>
