@@ -10,6 +10,7 @@ urlpatterns = [
     path('api/v1/', include('workSpacesApp.urls')),
     path('api/v1/', include('boardsApp.urls')),
     path('api/v1/', include('status.urls')),
+    path('api/v1/', include('columnApp.ursl'))
 
 ]
 

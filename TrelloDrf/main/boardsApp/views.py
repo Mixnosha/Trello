@@ -28,7 +28,6 @@ class BoardsModelView(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.action == 'list':
             return Boards.objects.filter(workspaces_boards=self.kwargs['id'])
-            
         else:
             return Boards.objects.filter(admin_users__user__username=self.request.user)
 
@@ -46,7 +45,7 @@ class BoardsModelView(viewsets.ModelViewSet):
 @api_view(['GET'])
 def get_board_to_slug(request, slug):
     """
-    List all code snippets, or create a new snippet.
+    Get Board to slug
     """
     if request.method == 'GET':
         board, wk = get_board_to_slug_funck(slug)

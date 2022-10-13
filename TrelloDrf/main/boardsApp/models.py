@@ -15,5 +15,3 @@ class Boards(models.Model):
     def __str__(self):
         return f'Boards {self.title}' + " " + str(self.id)
 
-
-
