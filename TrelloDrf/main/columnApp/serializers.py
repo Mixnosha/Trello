@@ -7,4 +7,11 @@ class ColumnAllViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Column
         depth = 1
-        fields = "__all__"
+        fields = ['id','title', 'cards']
+
+
+class ColumnOneViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Column
+        depth = 1
+        fields = '__all__'
