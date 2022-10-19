@@ -1,12 +1,14 @@
 <template>
-  <div class="main">
+  <div class="main" @click="hidden">
     <BoardBar :title="select_board.title"></BoardBar>
     <div class="some_body">
       <!-- ===================== COLUMN ===============================-->
       <h1>{{ Columns }}</h1>
       <div class="column" v-for="clmn in columns">
         <div class="column__header">
-          <div class="title">{{ clmn.title }}</div>
+          <div :id="clmn.id + 'd'" class="title" @dblclick="changeTitle(clmn.id)">{{ clmn.title }}</div>
+          <input @keyup.enter="requestChangeTitle(clmn.id, clmn.title)" class='title_input' type="text"
+                 :value="clmn.title" name="" :id="clmn.id">
           <div class="settings">...</div>
         </div>
 
@@ -31,7 +33,7 @@
       <!-- ====================================================================================  -->
 
       <div class="add_column" v-if="add_form_state === false"
-      @click="add_form_state=true">
+           @click="add_form_state=true">
         <div class="add_column__icon">
           <img src="@/static/images/Boards/Body/plusWhite.svg" class="pen_icon">
 
@@ -42,13 +44,14 @@
       </div>
 
       <div class="add_column-form" v-if="add_form_state">
-        <input v-model="form_new_column.title"  class="add_column_input" type="text" placeholder="Введите заголовок списка">
+        <input v-model="form_new_column.title" class="add_column_input" type="text"
+               placeholder="Введите заголовок списка">
         <div style="display: flex; align-items: center">
           <div class="add_btn" @click="newColumn">Добавить список</div>
           <div class="add_column__icon"
                style="padding-left: 10px">
             <img src="@/static/images/Boards/Body/close.svg" class="close"
-            @click="add_form_state=false">
+                 @click="add_form_state=false">
           </div>
         </div>
       </div>
@@ -58,7 +61,7 @@
 
   </div>
 </template>
-
+￼
 <script>
 import Cookies from "js-cookie";
 import BoardBar from "@/components/Boards/BoardBar";
@@ -71,9 +74,13 @@ export default {
       select_board: [],
       columns: [],
       add_form_state: false,
-      form_new_column:{
+      form_new_column: {
         title: null,
         br_id: null
+      },
+      temp_parent_title: {
+        parent: null,
+        inpt: null
       }
 
     }
@@ -94,11 +101,56 @@ export default {
         }
       })
       this.columns = res.data
+    },
+
+    changeTitle(id) {
+      const el = document.getElementById(id)
+      const parent = document.getElementById(id + 'd')
+      if (this.temp_parent_title.parent !== null) {
+        this.temp_parent_title.parent.style.display = 'block'
+        this.temp_parent_title.inpt.style.display = 'none'
+      } else {
+        this.temp_parent_title.parent = parent
+        this.temp_parent_title.inpt = el
+      }
+      el.style.display = 'block'
+      parent.style.display = 'none'
+      el.focus()
+      this.temp_parent_title.parent = parent
+      this.temp_parent_title.inpt = el
+    },
+    hidden(event) {
+      if (event.target.className !== 'title') {
+        this.temp_parent_title.parent.style.display = 'block'
+        this.temp_parent_title.inpt.style.display = 'none'
+        this.temp_parent_title.parent = null
+        this.temp_parent_title.inpt = null
+      }
 
 
     },
+    requestChangeTitle(id, title) {
+      axios.put(`http://127.0.0.1:8000/api/v1/column/${id}/`, {
+            title: document.getElementById(id).value,
+          },
+          {
+            headers: {
+              'Authorization': `Token ${Cookies.get('token')}`
+            }
+          }).then(res => {
+            for (let  i in this.columns){
+              if (this.columns[i].id === id){
+                this.columns[i].title = document.getElementById(id).value
+              }
+            }
+        this.temp_parent_title.parent.style.display = 'block'
+        this.temp_parent_title.inpt.style.display = 'none'
+        this.temp_parent_title.parent = null
+        this.temp_parent_title.inpt = null
+      })
 
-    newColumn(){
+    },
+    newColumn() {
       axios.post('http://127.0.0.1:8000/api/v1/column/', this.form_new_column, {
         headers: {
           'Authorization': `Token ${Cookies.get('token')}`
@@ -158,9 +210,23 @@ input {
 }
 
 .title {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+
   font-weight: 700;
   font-size: 16px;
+  display: block;
   cursor: pointer;
+}
+
+.title_input {
+  border: 3px solid #3574e3;
+  border-radius: 4px;
+  padding-left: 5px;
+  max-width: 180px;
+  display: none;
 }
 
 .settings {
