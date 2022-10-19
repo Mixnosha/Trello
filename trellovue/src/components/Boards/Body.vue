@@ -1,30 +1,21 @@
 <template>
   <div class="main">
-    <BoardBar></BoardBar>
+    <BoardBar :title="select_board.title"></BoardBar>
     <div class="some_body">
-
-
-      <div class="column">
+      <!-- ===================== COLUMN ===============================-->
+      <h1>{{Columns}}</h1>
+      <div class="column" v-for="clmn in columns">
         <div class="column__header">
-          <div class="title">Maksim</div>
+          <div class="title">{{ clmn.title }}</div>
           <div class="settings">...</div>
         </div>
 
-
-        <div class="column__task">
-          <div class="task__title">Maksim</div>
+        <div class="column__task" v-for="task in clmn.cards">
+          <div class="task__title">{{ task.title }}</div>
           <div class="task__edit">
             <img src="@/static/images/Boards/Body/pencil.svg" class="pen_icon">
           </div>
         </div>
-
-        <div class="column__task">
-          <div class="task__title">Maksim</div>
-          <div class="task__edit">
-            <img src="@/static/images/Boards/Body/pencil.svg" class="pen_icon">
-          </div>
-        </div>
-
 
         <div class="add_task">
           <div class="add_task__icon">
@@ -37,6 +28,7 @@
         </div>
       </div>
 
+      <!-- ====================================================================================  -->
 
       <div class="add_column">
         <div class="add_column__icon">
@@ -48,6 +40,8 @@
         </div>
       </div>
 
+
+
       </div>
 
 
@@ -57,17 +51,37 @@
 <script>
 import Cookies from "js-cookie";
 import BoardBar from "@/components/Boards/BoardBar";
+import axios from "axios";
 export default {
   components: {BoardBar},
   data() {
     return {
+      select_board: [],
+      columns: []
+
     }
 
   },
   methods:{
+    async get_board(){
+      const slug = this.$route.params.slug
+      const res = await axios.get(`http://127.0.0.1:8000/api/v1/get_board_to_slug/${slug}`)
+      this.select_board = res.data
+
+    },
+    async get_data(){
+        const res = await axios.get(`http://127.0.0.1:8000/api/v1/column_list/${this.select_board.id}/`, {
+          headers: {
+            'Authorization': `Token ${Cookies.get('token')}`
+          }
+        })
+      this.columns = res.data
+      },
 
   },
-  mounted() {
+  async mounted() {
+    await this.get_board()
+    await this.get_data()
   }
 }
 </script>
@@ -138,6 +152,7 @@ export default {
   margin-bottom: 10px;
   padding-bottom: 8px;
   padding-left: 10px;
+  padding-right: 5px;
   padding-top: 8px;
   background-color: white;
   border-radius: 4px;
@@ -152,7 +167,7 @@ export default {
 }
 
 .task__title{
-  padding-right: 180px;
+
 }
 .task__edit{
   border-radius: 4px;
@@ -161,6 +176,7 @@ export default {
   justify-content: center;
   cursor: pointer;
   transition: background-color 150ms;
+  margin-left: auto;
 }
 
 .task__edit:hover{
@@ -178,7 +194,7 @@ export default {
   display: flex;
   align-items: center;
   border-radius: 4px;
-  padding: 5px 0px 5px 10px;
+  padding: 5px 10px 5px 10px;
   color: #6e6b6b;
   transition: background-color 150ms;
 

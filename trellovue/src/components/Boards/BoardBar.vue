@@ -2,7 +2,7 @@
   <navbar class="" style="display:flex; align-items: center; max-height: 60px">
 
     <div class="navbar__title">
-      <span class="title">Title</span>
+      <span class="title">{{ title }}</span>
     </div>
 
     <div class="navbar__icon">
@@ -63,6 +63,9 @@
 <script>
 import Cookies from "js-cookie";
 export default {
+  props: {
+    title: String,
+  },
   data() {
     return {
       username: null,
