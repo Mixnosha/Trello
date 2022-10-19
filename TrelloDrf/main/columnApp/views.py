@@ -1,4 +1,4 @@
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -6,7 +6,7 @@ from rest_framework.viewsets import GenericViewSet
 from boardsApp.models import Boards
 from boardsApp.serializers import ViewOneBoardSerializer
 from columnApp.models import Column
-from columnApp.serializers import ColumnAllViewSerializer, ColumnOneViewSerializer
+from columnApp.serializers import ColumnAllViewSerializer, ColumnOneViewSerializer, CreateColumnSerializer
 
 
 class ColumnModelCRUD(mixins.CreateModelMixin,
@@ -14,11 +14,19 @@ class ColumnModelCRUD(mixins.CreateModelMixin,
                       mixins.DestroyModelMixin,
                       mixins.RetrieveModelMixin,
                       GenericViewSet):
+
+    permission_classes = [permissions.IsAuthenticated]
+
     def get_queryset(self):
         return Column.objects.all()
 
-    serializer_class = ColumnOneViewSerializer
-
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateColumnSerializer
+        if self.action == 'update':
+            return ColumnOneViewSerializer
+        if self.action == 'retrieve':
+            return ColumnOneViewSerializer
 
 @api_view(['GET'])
 def ColumnList(request, pk):

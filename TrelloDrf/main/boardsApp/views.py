@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 
@@ -25,6 +25,8 @@ from boardsApp.service import get_board_to_slug_funck
     operation_description="Удаление доски"
 ))
 class BoardsModelView(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get_queryset(self):
         if self.action == 'list':
             return Boards.objects.filter(workspaces_boards=self.kwargs['id'])
