@@ -1,3 +1,4 @@
 from django.contrib import admin
+from cardsApp.models import Cards 
 
-# Register your models here.
+admin.site.register(Cards)
