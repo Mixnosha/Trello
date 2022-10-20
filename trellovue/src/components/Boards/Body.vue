@@ -9,7 +9,7 @@
           <div :id="clmn.id + 'd'" class="title" @dblclick="changeTitle(clmn.id)">{{ clmn.title }}</div>
           <input @keyup.enter="requestChangeTitle(clmn.id)" class='title_input' type="text"
                  :value="clmn.title" name="" :id="clmn.id">
-          <div class="settings" @click="menuView(clmn.id + 'main')">...</div>
+          <div class="settings" @click="menuView(clmn.id + 'main', clmn.title)">...</div>
         </div>
 
         <div class="column__task" v-for="task in clmn.cards">
@@ -76,8 +76,25 @@
           Переместить список...
         </div>
         <hr class="line">
-        <div class="item">
+
+
+        <div @click="column_menu.delete_state = true" class="item" v-if="column_menu.delete_state === false">
           Удалить список...
+        </div>
+
+        <div class="delete_column" v-else>
+          <div style="color: #6c6c6c">
+            Введите название списка
+          </div>
+          <input  v-model="column_menu.delete_column"
+                  class="add_column_input"
+                  :placeholder="column_menu.current_column.title"
+                  style="width: 94%; height: 28px"
+                  type="text">
+          <div class="delete_close_btn">
+            <div @click="delete_column" class="delete" :style="{background: column_menu.delete_btn_color, cursor: column_menu.delete_btn_cursor}">Удалить</div>
+            <div class="close_btn" @click="column_menu.delete_state = false">Отменить</div>
+          </div>
         </div>
 
 
@@ -108,7 +125,12 @@ export default {
         br_id: null
       },
       column_menu: {
-        display: 'none'
+        display: 'none',
+        delete_state: false,
+        delete_column: '',
+        delete_btn_color:'#b7b0b0',
+        delete_btn_cursor: '',
+        current_column: ''
       },
       temp_parent_title: {
         parent: null,
@@ -161,13 +183,17 @@ export default {
 
 
     },
-    menuView(id){
+    menuView(id, title){
+      this.column_menu.delete_state = false
+      this.column_menu.delete_column = null
       const parent = document.getElementById(id)
       const position_parent = parent.getBoundingClientRect()
       const menu = document.getElementById('menu')
       menu.style.left = `${position_parent.left + 170}px`
-      this.column_menu.display = 'block'
       menu.style.top = `${position_parent.top + 10}px`
+      this.column_menu.display = 'block'
+      this.column_menu.current_column = {id: id, title: title}
+
     },
     requestChangeTitle(id) {
       axios.put(`http://127.0.0.1:8000/api/v1/column/${id}/`, {
@@ -200,17 +226,49 @@ export default {
         this.form_new_column.title = ''
       })
 
+    },
+    async delete_column(){
+      if (this.column_menu.delete_btn_cursor === 'pointer'){
+        const id =(parseInt(this.column_menu.current_column.id))
+        await axios.delete(`http://127.0.0.1:8000/api/v1/column/${id}`, {
+          headers: {
+            'Authorization': `Token ${Cookies.get('token')}`
+          }
+        })
+        for (let i in this.columns){
+          if (this.columns[i].id === id){
+            this.columns.splice(i, 1)
+            this.column_menu.display = 'none'
+            break
+          }
+        }
+      }
+    },
+  },
+  watch: {
+    'column_menu.delete_column'(new_value){
+      if (new_value === this.column_menu.current_column.title){
+        this.column_menu.delete_btn_color = '#ce5f5f'
+        this.column_menu.delete_btn_cursor = 'pointer'
+      }
+      else{
+        this.column_menu.delete_btn_color = '#b7b0b0'
+        this.column_menu.delete_btn_cursor = ''
+      }
     }
-
   },
   async mounted() {
     await this.get_board()
     await this.get_data()
+
   }
 }
 </script>
 
 <style scoped>
+body{
+  overflow-x: scroll;
+}
 
 input {
   all: unset;
@@ -461,6 +519,7 @@ input {
 .item{
   padding: 5px;
   margin-bottom: 5px;
+  cursor: pointer;
   transition: background-color 240ms;
 }
 
@@ -478,4 +537,37 @@ input {
 .wrapper_icon:hover{
   background-color: rgba(108, 108, 108, 0.45);
 }
+
+/* ================== COLUMN MENU =====================*/
+
+.delete_close_btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete{
+  padding: 5px;
+  color: white;
+  background-color: #b7b0b0;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+.close_btn{
+  padding: 5px;
+  color: white;
+  background-color: #5da146;
+  border-radius: 4px;
+  transition: background-color 240ms;
+  cursor: pointer;
+}
+
+.close_btn:hover{
+  background-color: #71c554;
+}
+
+
+
+
 </style>
