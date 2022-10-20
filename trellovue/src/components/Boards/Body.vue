@@ -4,12 +4,12 @@
     <div class="some_body">
       <!-- ===================== COLUMN ===============================-->
       <h1>{{ Columns }}</h1>
-      <div class="column" v-for="clmn in columns">
+      <div class="column" v-for="clmn in columns" :id="clmn.id + 'main'">
         <div class="column__header">
           <div :id="clmn.id + 'd'" class="title" @dblclick="changeTitle(clmn.id)">{{ clmn.title }}</div>
-          <input @keyup.enter="requestChangeTitle(clmn.id, clmn.title)" class='title_input' type="text"
+          <input @keyup.enter="requestChangeTitle(clmn.id)" class='title_input' type="text"
                  :value="clmn.title" name="" :id="clmn.id">
-          <div class="settings">...</div>
+          <div class="settings" @click="menuView(clmn.id + 'main')">...</div>
         </div>
 
         <div class="column__task" v-for="task in clmn.cards">
@@ -56,6 +56,35 @@
         </div>
       </div>
 
+      <!-- =============================== COLUMN MENU =================================  -->
+
+      <div class="column_menu-main" id="menu" :style="{display: column_menu.display}">
+        <div class="column_menu-header">
+          <span class="column_menu-header-title">Действия со списком</span>
+          <div  @click="column_menu.display = 'none'" class="wrapper_icon">
+            <img class="column_menu-icons" src="@/static/images/Boards/Body/close.svg">
+          </div>
+        </div>
+        <hr class="line">
+        <div class="item">
+          Добавить карточку...
+        </div>
+        <div class="item">
+          Копировать список...
+        </div>
+        <div class="item">
+          Переместить список...
+        </div>
+        <hr class="line">
+        <div class="item">
+          Удалить список...
+        </div>
+
+
+      </div>
+
+
+
     </div>
 
 
@@ -77,6 +106,9 @@ export default {
       form_new_column: {
         title: null,
         br_id: null
+      },
+      column_menu: {
+        display: 'none'
       },
       temp_parent_title: {
         parent: null,
@@ -129,7 +161,15 @@ export default {
 
 
     },
-    requestChangeTitle(id, title) {
+    menuView(id){
+      const parent = document.getElementById(id)
+      const position_parent = parent.getBoundingClientRect()
+      const menu = document.getElementById('menu')
+      menu.style.left = `${position_parent.left + 170}px`
+      this.column_menu.display = 'block'
+      menu.style.top = `${position_parent.top + 10}px`
+    },
+    requestChangeTitle(id) {
       axios.put(`http://127.0.0.1:8000/api/v1/column/${id}/`, {
             title: document.getElementById(id).value,
           },
@@ -383,4 +423,59 @@ input {
   width: 24px;
 }
 
+.column_menu-main{
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0px -2px 2px -2px rgba(34, 60, 80, 0.6) inset;
+  padding: 10px;
+
+}
+
+.column_menu-header{
+  display: flex;
+  width: 320px;
+  padding: 5px 10px 10px 10px;
+}
+
+.column_menu-header-title{
+  color: #a69a9a;
+  margin: auto;
+  font-size: 14px;
+}
+
+.column_menu-icons{
+  cursor: pointer;
+  width: 14px;
+}
+
+.line{
+  color: #6c6c6c;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+
+.item{
+  padding: 5px;
+  margin-bottom: 5px;
+  transition: background-color 240ms;
+}
+
+.item:hover{
+  background-color: rgba(211, 208, 208, 0.57);
+}
+
+.wrapper_icon{
+  padding: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 4px;
+  transition: background-color 240ms;
+}
+.wrapper_icon:hover{
+  background-color: rgba(108, 108, 108, 0.45);
+}
 </style>
