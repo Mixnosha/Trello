@@ -33,25 +33,28 @@
       <!-- ====================================================================================  -->
 
       <div class="add_column" v-if="add_form_state === false"
-           @click="add_form_state=true">
+           @click="addColumnMenu">
         <div class="add_column__icon">
           <img src="@/static/images/Boards/Body/plusWhite.svg" class="pen_icon">
 
         </div>
         <div class="add_clumn_text">
-          Добавить еще одну колонку
+          Добавить еще один список
         </div>
       </div>
 
       <div class="add_column-form" v-if="add_form_state">
         <input v-model="form_new_column.title" class="add_column_input" type="text"
+               ref="add_clmn"
                placeholder="Введите заголовок списка">
         <div style="display: flex; align-items: center">
           <div class="add_btn" @click="newColumn">Добавить список</div>
           <div class="add_column__icon"
                style="padding-left: 10px">
-            <img src="@/static/images/Boards/Body/close.svg" class="close"
-                 @click="add_form_state=false">
+            <div class="close_add_column">
+              <img src="@/static/images/Boards/Body/close.svg" class="close"
+                   @click="add_form_state=false">
+            </div>
           </div>
         </div>
       </div>
@@ -112,6 +115,7 @@
 import Cookies from "js-cookie";
 import BoardBar from "@/components/Boards/BoardBar";
 import axios from "axios";
+import {nextTick} from "vue";
 
 export default {
   components: {BoardBar},
@@ -141,12 +145,20 @@ export default {
 
   },
   methods: {
+    openMenu(){
+
+    },
     async get_board() {
       const slug = this.$route.params.slug
       const res = await axios.get(`http://127.0.0.1:8000/api/v1/get_board_to_slug/${slug}`)
       this.select_board = res.data
       this.form_new_column.br_id = res.data.id
 
+    },
+    async addColumnMenu(){
+      this.add_form_state=true
+      await nextTick()
+      this.$refs.add_clmn.focus()
     },
     async get_data() {
       const res = await axios.get(`http://127.0.0.1:8000/api/v1/column_list/${this.select_board.id}/`, {
@@ -225,7 +237,7 @@ export default {
         this.columns.push(res.data)
         this.form_new_column.title = ''
       })
-
+      this.addColumnMenu()
     },
     async delete_column(){
       if (this.column_menu.delete_btn_cursor === 'pointer'){
@@ -418,6 +430,7 @@ input {
 
 
 .add_column {
+  cursor:pointer;
   display: flex;
   padding: 10px 20px 10px 20px;
   height: 50px;
@@ -465,6 +478,7 @@ input {
 }
 
 .add_btn {
+  cursor: pointer;
   background-color: #3069ce;
   color: white;
   border-radius: 4px;
@@ -567,7 +581,16 @@ input {
   background-color: #71c554;
 }
 
+.close_add_column{
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 4px;
+  transition: background-color 240ms;
+}
 
+.close_add_column:hover{
+  background-color: rgba(108, 108, 108, 0.28);
+}
 
 
 </style>
