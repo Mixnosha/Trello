@@ -44,7 +44,7 @@
       </div>
 
       <div class="add_column-form" v-if="add_form_state">
-        <input v-model="form_new_column.title" class="add_column_input" type="text"
+        <input @keyup.enter="newColumn" @keyup.esc="add_form_state=false" v-model="form_new_column.title" class="add_column_input" type="text"
                ref="add_clmn"
                placeholder="Введите заголовок списка">
         <div style="display: flex; align-items: center">
