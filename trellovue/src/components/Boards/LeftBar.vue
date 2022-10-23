@@ -91,9 +91,13 @@
             </div>
           </div>
         <hr class="line">
-        <div class="delete_boards" @click="deleteBoard">
+        <div v-if="delete_board_state" class="delete_boards" @click="deleteBoard">
           <div class="btn_delete">Удалить</div>
         </div>
+        <div v-else style="color: #6c6c6c; font-size: 14px">
+          Вы не можете удалить доску в которой находитесь
+        </div>
+
       </div>
     </div>
   </div>
@@ -119,11 +123,13 @@ export default {
       display_createBr: 'none',
       boards: null,
       wk_id: null,
+      current_board: null,
       wk: 'undefined',
       select_board: '',
       boardsView: false,
       menu_boards: false,
-      menu_choices_board_id: null
+      menu_choices_board_id: null,
+      delete_board_state: false,
     }
   },
   methods: {
@@ -172,6 +178,12 @@ export default {
       menu.style.top = `${position_parent.top - 10}px`
       this.menu_boards = true
       this.menu_choices_board_id = id
+      if (this.current_board !== title){
+        this.delete_board_state = true
+      }
+      else{
+        this.delete_board_state = false
+      }
     },
     async get_wk(){
       const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${this.wk_id}`, {
@@ -194,6 +206,7 @@ export default {
     await this.get_board()
     await this.get_boards(this.wk_id)
     await this.get_wk()
+    this.current_board = this.$route.params.title
   }
 }
 </script>
