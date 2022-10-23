@@ -15,8 +15,6 @@ class ColumnModelCRUD(mixins.CreateModelMixin,
                       mixins.RetrieveModelMixin,
                       GenericViewSet):
 
-    
-
     def get_queryset(self):
         return Column.objects.all()
 

@@ -11,6 +11,7 @@ class Boards(models.Model):
     background = models.CharField(max_length=20, blank=True, null=True, default="#f67272")
     status = models.ForeignKey('status.StatusBoards', on_delete=models.CASCADE)
     slug = models.CharField(max_length=100, unique=True)
+    favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Boards {self.title}' + " " + str(self.id)

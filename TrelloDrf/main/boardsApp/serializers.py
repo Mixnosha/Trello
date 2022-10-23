@@ -49,16 +49,18 @@ class BoardUpdateSerializers(serializers.ModelSerializer):
     slug = serializers.CharField(required=False)
     title = serializers.CharField(required=False)
     status = StatusViewSerializer(required=False)
+    favorite = serializers.BooleanField(required=False)
 
     class Meta:
         model = Boards
-        fields = ['status', 'title', 'slug', 'description']
+        fields = ['status', 'title', 'slug', 'description', 'favorite']
 
     def update(self, instance, validated_data):
         if (new_title := validated_data.get('title', instance.title)) != instance.title:
             instance.title = new_title
             instance.slug = get_slug_board(new_title)
         instance.description = validated_data.get('description', instance.description)
+        instance.favorite = validated_data.get('favorite', instance.favorite)
         if 'status' in validated_data:
             instance.status = StatusBoards.objects.get(title=validated_data['status']['title'])
         instance.save()
