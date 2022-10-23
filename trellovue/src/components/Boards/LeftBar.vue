@@ -64,7 +64,7 @@
              @mouseenter="boardsViewFunck(b.id, true)" @mouseleave="boardsViewFunck(b.id, false)">
           <div class="bg_board" :style="{backgroundColor: b.background}"></div>
           <span style="margin-right: auto; padding-left: 10px; color: white;">{{ b.title }}</span>
-          <div  :id="b.id" @click.stop="console.log('d')" class="three_points">...</div>
+          <div  :id="b.id" @click.stop="viewPopUpMenuBoards(b.id, b.title)" class="three_points">...</div>
           <div  :id="b.id + 'i'" class="navbar__icon">
             <svg class="icon" id="" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                  viewBox="0 0 270.365 270.365" xml:space="preserve">
@@ -83,8 +83,17 @@
           </div>
         </div>
       </div>
-      <div class="pop_menu">
-
+      <div v-show="menu_boards" class="pop_menu" id="menu">
+          <div class="pop_menu-header">
+            <span style="margin: auto;" id="menu_title">Title</span>
+            <div @click="menu_boards=false, menu_choices_board_id=null" class="pop_menu-icon">
+              <img src="@/static/images/Boards/Body/close.svg" alt="">
+            </div>
+          </div>
+        <hr class="line">
+        <div class="delete_boards" @click="deleteBoard">
+          <div class="btn_delete">Удалить</div>
+        </div>
       </div>
     </div>
   </div>
@@ -113,6 +122,8 @@ export default {
       wk: 'undefined',
       select_board: '',
       boardsView: false,
+      menu_boards: false,
+      menu_choices_board_id: null
     }
   },
   methods: {
@@ -136,6 +147,31 @@ export default {
       this.wk_id = res.data.wk_id
       this.select_board = res.data
 
+    },
+    deleteBoard(){
+      axios.delete(`http://127.0.0.1:8000/api/v1/board/${this.menu_choices_board_id}`, {
+        headers: {
+          'Authorization': `Token ${Cookies.get('token')}`
+        }
+      }).then(res => {
+        this.menu_boards = false
+        for (let i in this.boards){
+          if (this.boards[i].id === this.menu_choices_board_id){
+            this.boards.splice(i, 1)
+            break
+          }
+        }
+      })
+    },
+    viewPopUpMenuBoards(id, title){
+      const parent = document.getElementById(id)
+      const position_parent = parent.getBoundingClientRect()
+      const menu = document.getElementById('menu')
+      document.getElementById('menu_title').textContent = title
+      menu.style.left = `${position_parent.left}px`
+      menu.style.top = `${position_parent.top - 10}px`
+      this.menu_boards = true
+      this.menu_choices_board_id = id
     },
     async get_wk(){
       const res = await axios.get(`http://127.0.0.1:8000/api/v1/workspace/${this.wk_id}`, {
@@ -289,5 +325,52 @@ export default {
 }
 .navbar__icon:hover .icon{
   width: 20px;
+}
+
+/* ================== PopUp menu boards =====================*/
+
+.pop_menu{
+  position: absolute;
+  width: 240px;
+  background-color: white;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.pop_menu-header{
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.pop_menu-icon{
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 260ms;
+}
+
+.pop_menu-icon:hover{
+  background-color: rgba(200, 203, 208, 0.31);
+}
+
+
+
+.line{
+  color: #6c6c6c;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+
+.delete_boards{
+  cursor: pointer;
+  margin-top: 5px;
+  margin-left: 10px;
+  background-color: #ee7474;
+  padding: 4px;
+  color: white;
+  max-width: 70px;
+  border-radius: 4px;
 }
 </style>
