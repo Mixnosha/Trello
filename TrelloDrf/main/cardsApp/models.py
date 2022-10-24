@@ -9,7 +9,7 @@ class Cards(models.Model):
     comments = models.ManyToManyField(to='commentApp.Comment', related_name='cards_comment', blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return self.title + ' id' + f' {self.id}'
 
 
 
