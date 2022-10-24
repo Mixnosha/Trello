@@ -19,15 +19,31 @@
           </div>
         </div>
 
-        <div class="add_task">
+        <div class="add_task" :id="clmn.id + 'add_cards'">
           <div class="add_task__icon">
             <img src="@/static/images/Boards/Body/plus.svg" class="pen_icon">
 
           </div>
-          <div class="add_task_text">
+          <div class="add_task_text"
+            @click="addCardMenu(clmn.id)">
             Добавить карточку
           </div>
+
         </div>
+        <div class="menu_add_card" :id="clmn.id + 'menu_cards'">
+          <textarea :id="clmn.id + 'area'" v-model="newCard.title"  placeholder="Ввести заголовок для этой карточки"></textarea>
+          <div style="display: flex">
+          <div class="add_btn" style="width: 160px; margin-right: 10px"
+          @click="addCard(clmn.id)"
+          >Добавить карточку</div>
+          <div class="close_add_column" style="justify-content: center; padding-top: 6px">
+            <img src="@/static/images/Boards/Body/close.svg"  class="close"
+                 @click="addCardMenu(clmn.id, false)">
+          </div>
+          </div>
+        </div>
+
+
       </div>
 
       <!-- ====================================================================================  -->
@@ -136,6 +152,11 @@ export default {
         delete_btn_cursor: '',
         current_column: ''
       },
+      newCard: {
+        title: null,
+        clmn_id: null,
+        current_clmn: null,
+      },
       temp_parent_title: {
         parent: null,
         inpt: null
@@ -145,8 +166,47 @@ export default {
 
   },
   methods: {
-    openMenu(){
+    addCard(id){
+      if (this.newCard.title !== null){
+        axios.post('http://127.0.0.1:8000/api/v1/card/', {
+          title: this.newCard.title,
+          clmn_id: id,
+        },
+            {
+              headers: {
+                'Authorization': `Token ${Cookies.get('token')}`
+              }
+            }).then(res => {
+              for (let i in this.columns){
+                if (this.columns[i].id === id){
+                  this.columns[i].cards.push(res.data)
+                }
+              }
+              this.newCard.title = null
+              document.getElementById(id + 'area').focus()
 
+
+        })
+      }
+    },
+    addCardMenu(id, oper=true){
+      if (this.newCard.current_clmn)
+      {
+        document.getElementById(this.newCard.current_clmn + 'add_cards').style.display = 'flex'
+        document.getElementById(this.newCard.current_clmn + 'menu_cards').style.display = 'none'
+      }
+      if (oper)
+      {
+        this.newCard.current_clmn = id
+        document.getElementById(id + 'add_cards').style.display = 'none'
+        document.getElementById(id + 'menu_cards').style.display = 'block'
+        document.getElementById(id + 'area').focus()
+      }
+      else{
+        this.newCard.current_clmn = null
+        document.getElementById(this.newCard.current_clmn + 'add_cards').style.display = 'flex'
+        document.getElementById(this.newCard.current_clmn + 'menu_cards').style.display = 'none'
+      }
     },
     async get_board() {
       const slug = this.$route.params.slug
@@ -272,6 +332,7 @@ export default {
   async mounted() {
     await this.get_board()
     await this.get_data()
+
 
   }
 }
@@ -592,5 +653,20 @@ input {
   background-color: rgba(108, 108, 108, 0.28);
 }
 
+.add_task_text{
+  cursor: pointer;
+}
+textarea{
+  padding: 10px;
+  border: none;
+  outline: none;
+  max-height: 200px;
+  min-height: 80px;
+  border-radius: 4px;
+  box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
 
+}
+.menu_add_card{
+  display: none;
+}
 </style>

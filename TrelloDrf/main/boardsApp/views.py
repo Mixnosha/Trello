@@ -27,7 +27,7 @@ class BoardsModelView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            return Boards.objects.filter(column_cards=self.kwargs['id'])
+            return Boards.objects.filter(workspaces_boards=self.kwargs['id'])
         else:
             return Boards.objects.filter(admin_users__user__username=self.request.user)
 
